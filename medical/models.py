@@ -1,6 +1,5 @@
+import uuid
 from django.db import models
-
-# Create your models here.
 
 class Patient(models.Model):
     GENDER_CHOICES = (
@@ -8,45 +7,50 @@ class Patient(models.Model):
         ('F', 'Female'),
     )
 
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    dob = models.DateField()  
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=15)  # Adjust max_length as needed
-    ssn = models.CharField(max_length=9)  # Assuming Social Security Number is 9 digits
-    password = models.CharField(max_length=128)  # Storing password hashes
-    patient_id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=100, default="")
+    last_name = models.CharField(max_length=100, default="")
+    dob = models.DateField(default="2000-01-01")  # Default date, adjust as needed
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default="M")
+    email = models.EmailField(default="")
+    phone_number = models.CharField(max_length=15, default="")  
+    ssn = models.CharField(max_length=9, default="")  
+    password = models.CharField(max_length=128, default="")  
+    patient_id = models.AutoField(primary_key=True, default=1)
 
 
-# Can only be accessed by the admin
 class Doctor(models.Model):
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),
     )
 
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    dob = models.DateField()  
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=15)  # Adjust max_length as needed
-    ssn = models.CharField(max_length=9)  # Assuming Social Security Number is 9 digits
-    password = models.CharField(max_length=128)  # Storing password hashes
-    doctor_id = models.AutoField(primary_key=True)
-    specialty = models.CharField(max_length=100)
-
+    first_name = models.CharField(max_length=100, default="")
+    last_name = models.CharField(max_length=100, default="")
+    dob = models.DateField(default="2000-01-01")  
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default="M")
+    email = models.EmailField(default="")
+    phone_number = models.CharField(max_length=15, default="")  
+    ssn = models.CharField(max_length=9, default="")  
+    password = models.CharField(max_length=128, default="")  
+    doctor_id = models.AutoField(primary_key=True, default=1)
+    specialty = models.CharField(max_length=100, default="")
 
 
 class Appointment(models.Model):
-    appointment_id = models.AutoField(primary_key=True)
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('in_progress', 'In Progress'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    )
+
+    appointment_id = models.AutoField(primary_key=True, default=1)
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
     doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    status = models.CharField(max_length=50)
-    date = models.DateField()
-    time = models.TimeField()
-    
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="pending")
+    date = models.DateField(default="2000-01-01")  # Default date, adjust as needed
+    time = models.TimeField(default="00:00")  # Default time, adjust as needed
 
 
 class MedicalRecord(models.Model):
@@ -54,7 +58,8 @@ class MedicalRecord(models.Model):
     appointment_id = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     image_file = models.ImageField(upload_to='medical_records', null=True, blank=True)
-    diagnosis = models.TextField()
-    treatment = models.TextField()
+    diagnosis = models.TextField(default="")
+    treatment = models.TextField(default="")
+
    
 
