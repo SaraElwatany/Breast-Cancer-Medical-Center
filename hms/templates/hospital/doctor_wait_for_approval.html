@@ -5,12 +5,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>HMS - Django</title>
+  <title>MammoCare Solutions</title>
 
 
   <style media="screen">
     .jumbotron {
-      margin-top: 0px;
+      margin-top: 50px; /* Adjusted margin top */
       margin-bottom: 0px;
     }
 
@@ -30,14 +30,13 @@
   <br>
   <br>
 
-  <div class="jumbotron" style="margin-top: 0px;
-    margin-bottom: 0px;">
+  <div class="jumbotron">
     <h1 class="display-4">Hello {{request.user.first_name}}</h1>
     <p class="lead">Your Account is not approved till now <br><br>Our Team is checking your profile <br><br> Soon your Account will be confirmed !!!</p>
     <hr class="my-4">
     <p>Check Later</p>
     <p class="lead">
-      <a class="btn btn-primary btn-lg" href="/logout" role="button">Logout For Now</a>
+      <a class="btn btn-primary btn-lg" href="/index" role="button">Logout For Now</a>
     </p>
   </div>
 
@@ -46,3 +45,4 @@
 
 
 </html>
+

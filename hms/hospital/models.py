@@ -10,6 +10,8 @@ departments=[('Cardiologist','Cardiologist'),
 ('Anesthesiologists','Anesthesiologists'),
 ('Colon and Rectal Surgeons','Colon and Rectal Surgeons')
 ]
+
+
 class Doctor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     profile_pic= models.ImageField(upload_to='profile_pic/DoctorProfilePic/',null=True,blank=True)
@@ -75,6 +77,19 @@ class PatientDischargeDetails(models.Model):
     doctorFee=models.PositiveIntegerField(null=False)
     OtherCharge=models.PositiveIntegerField(null=False)
     total=models.PositiveIntegerField(null=False)
+
+
+
+class MedicalRecord(models.Model):
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    details = models.TextField()
+    image = models.ImageField(upload_to='medical_record_images/', null=True, blank=True)
+    diagnosis = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return f"Medical Record for {self.patient.get_name} - {self.date}"
 
 
 #Developed By : sumit kumar

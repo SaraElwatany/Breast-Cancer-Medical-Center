@@ -5,8 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>HMS - Django</title>
-
+  <title>Mammocare Solutions</title>
 
   <style type="text/css">
     body {
@@ -32,6 +31,7 @@
       padding: 5%;
       border: 1px solid #ced4da;
       margin-bottom: 2%;
+      margin-top: 200px; /* Adjust margin-top as needed */
     }
 
     .form-control {
@@ -57,13 +57,13 @@
   <br>
   <br><br>
 
-  <!--- login page for doctor by admin(sumit)  ---------->
+  <!--- login page for patient by admin(sumit)  ---------->
   <form method="post">
     {% csrf_token %}
     <div class="container register-form">
       <div class="form">
         <div class="note">
-          <p>Doctor Login Page</p>
+          <p>Patient Login Page</p>
         </div>
 
         <div class="form-content">
@@ -84,7 +84,7 @@
             </div>
           </div>
           <button type="submit" class="btnSubmit">Login</button>
-          <div class="text-center">Do not have account? <a href="doctorsignup">Signup here</a></div>
+          <div class="text-center">Do not have account? <a href="patientsignup">Signup here</a></div>
         </div>
       </div>
     </div>
@@ -98,3 +98,4 @@
 </body>
 
 </html>
+

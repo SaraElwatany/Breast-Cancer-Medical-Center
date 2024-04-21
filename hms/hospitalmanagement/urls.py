@@ -68,7 +68,9 @@ urlpatterns = [
 
 #---------FOR DOCTOR RELATED URLS-------------------------------------
 urlpatterns +=[
-    path('doctor-dashboard', views.doctor_dashboard_view,name='doctor-dashboard'),
+
+    path('index', views.wait_approval_view, name='index'),
+    path('doctor-dashboard', views.doctor_dashboard_view, name='doctor-dashboard'),
 
     path('doctor-patient', views.doctor_patient_view,name='doctor-patient'),
     path('doctor-view-patient', views.doctor_view_patient_view,name='doctor-view-patient'),
@@ -93,6 +95,17 @@ urlpatterns +=[
     path('patient-discharge', views.patient_discharge_view,name='patient-discharge'),
 
 ]
+
+
+
+#---------FOR FOOTER RELATED URLS-------------------------------------
+
+urlpatterns +=[
+    # Add a URL pattern for the privacy policy page
+    path('privacy_policy', views.privacy_policy_view, name='privacy_policy'),
+    path('terms', views.terms_view, name='terms'),
+]
+
 
 #Developed By : sumit kumar
 #facebook : fb.com/sumit.luv

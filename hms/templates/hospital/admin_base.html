@@ -270,6 +270,89 @@
       }
     }
 
+    body {
+      padding-left: 240px;
+      margin-top: 50px; /* Adjust the margin from the top */
+    }
+    
+
+    .menu {
+      background: rgb(2,0,36);
+      background: linear-gradient(10deg, rgba(2,0,36,1) 0%, rgba(95,169,255,1) 0%, rgba(11,3,90,1) 55%, rgba(4,5,92,1) 66%, rgba(18,1,88,0.9568160027682948) 87%); 
+      height: 100vh;
+      width: 240px;
+      position: fixed;
+      top: 0px;
+      left: 0; /* Adjusted to show the menu by default */
+      z-index: 5;
+      outline: none;
+      transition: left 0.3s; /* Smooth transition for left position */
+    }
+    
+
+    .menu:hover {
+      left: 0; /* Show the menu on hover */
+    }
+
+    .menu .avatar {
+      background: #040046;
+      padding: 2em 0.5em;
+      text-align: center;
+    }
+
+    .menu .avatar img {
+      width: 100px;
+      height: 100px; /* Adjusted size */
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #5f77f0;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+    }
+
+    .menu .avatar h2 {
+      font-weight: normal;
+      margin-bottom: 0;
+      color: #fff; /* Text color */
+      margin-top: 10px; /* Adjusted spacing */
+    }
+
+    .menu ul {
+      list-style: none;
+      padding: 0.5em 0;
+      margin: 0;
+      background: rgb(2,0,36);
+      background: linear-gradient(10deg, rgba(2,0,36,1) 0%, rgba(95,169,255,1) 0%, rgba(11,3,90,1) 55%, rgba(4,5,92,1) 66%, rgba(18,1,88,0.9568160027682948) 87%); 
+    }
+    
+
+    .menu ul li {
+      padding: 1em;
+      font-size: 1.2em;
+      font-weight: bold; /* Bold text */
+      transition: background-color 0.3s ease; /* Smooth transition for background color */
+    }
+
+    .menu ul li:hover {
+      background-color: rgba(255, 255, 255, 0.1); /* Lighter background on hover */
+    }
+
+    .menu ul li a {
+      color: #fff; /* Text color */
+      text-decoration: none;
+    }
+
+    footer {
+      padding: 0px 0px 0px 0px;
+      background: rgb(2, 0, 36);
+      background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(9, 53, 121, 1) 78%);
+      margin: 0px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+      text-align: center; /* Align text to the center */
+    }
+
   </style>
 
 </head>
@@ -298,17 +381,15 @@
 
     <!-- nav start -->
     <div class="bs-example">
-      <nav class="navbar navbar-expand-md  navbar-dark fixed-top" style="background:#337AB7;">
-        <a href="/admin-dashboard" class="navbar-brand">HOSPITAL MANAGEMENT</a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-          <div class="navbar-nav" style=" margin-left: 90%;">
-
-            <a href="/logout" class="nav-item nav-link">Logout</a>
-          </div>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background:#040046;">
+        <!-- Start logout -->
+        <div class="navbar-nav" style=" margin-left: 80%;">
+          <a href="/index" class="nav-item nav-link">Logout</a>
         </div>
+        <!-- End of logout -->
+        <a href="/admin-dashboard" class="navbar-brand">
+          <img src="{% static 'images/mammocare-logo.jpeg' %}" alt="Logo" height="40" style="margin-top: -7px;">
+        </a>
       </nav>
     </div>
     <!-- nav end -->
@@ -324,16 +405,16 @@
     <!-- content end-->
 
     <br><br><br><br>
-    <footer>
-     
 
+    <footer>
       <br>
       <div class="container">
         <div class="row">
           <div class="col-md-12 col-sm-12">
             <div style="color:#ffffff;" class="wow fadeInUp footer-copyright">
               <p>
-                 </p>
+                &copy; 2024 MammoCare Solutions. All rights reserved. | <a href="/privacy_policy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
+              </p>
             </div>
           </div>
         </div>
@@ -346,3 +427,8 @@
 </body>
 
 </html>
+
+
+
+
+

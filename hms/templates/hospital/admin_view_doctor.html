@@ -1,6 +1,6 @@
 {% extends 'hospital/admin_base.html' %}
 {% block content %}
-{%load static%}
+{% load static %}
 
 <head>
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -8,6 +8,18 @@
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
   <style media="screen">
+
+    footer {
+      padding: 0px 0px 0px 0px;
+      background: rgb(2, 0, 36);
+      background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(9, 53, 121, 1) 78%);
+      margin: 0px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+    }
+
     a:link {
       text-decoration: none;
     }
@@ -30,7 +42,6 @@
     <table class="table table-hover" id="dev-table">
       <thead>
         <tr>
-
           <th>Name</th>
           <th>Profile Picture</th>
           <th>Contact</th>
@@ -42,7 +53,6 @@
       </thead>
       {% for d in doctors %}
       <tr>
-
         <td> {{d.get_name}}</td>
         <td> <img src="{% static d.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
         <td>{{d.mobile}}</td>
@@ -56,5 +66,17 @@
   </div>
 </div>
 
-
 {% endblock content %}
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div style="color:#555;" class="wow fadeInUp footer-copyright">
+          <p>© 2024 MammoCare Solutions. All Rights Reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+

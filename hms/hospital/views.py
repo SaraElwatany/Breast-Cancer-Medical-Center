@@ -8,6 +8,9 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from datetime import datetime,timedelta,date
 from django.conf import settings
 
+
+user_type = 'GUEST'
+
 # Create your views here.
 def home_view(request):
     if request.user.is_authenticated:
@@ -17,22 +20,22 @@ def home_view(request):
 
 #for showing signup/login button for admin(by sumit)
 def adminclick_view(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect('afterlogin')
+    #if request.user.is_authenticated and is_admin(request.user):
+        #return HttpResponseRedirect('afterlogin')
     return render(request,'hospital/adminclick.html')
 
 
 #for showing signup/login button for doctor(by sumit)
 def doctorclick_view(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect('afterlogin')
+    #if request.user.is_authenticated and is_doctor(request.user):
+        #return HttpResponseRedirect('afterlogin')
     return render(request,'hospital/doctorclick.html')
 
 
 #for showing signup/login button for patient(by sumit)
 def patientclick_view(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect('afterlogin')
+    #if request.user.is_authenticated and is_patient(request.user):
+        #return HttpResponseRedirect('afterlogin')
     return render(request,'hospital/patientclick.html')
 
 
@@ -562,6 +565,10 @@ def reject_appointment_view(request,pk):
 #---------------------------------------------------------------------------------
 #------------------------ DOCTOR RELATED VIEWS START ------------------------------
 #---------------------------------------------------------------------------------
+def wait_approval_view(request):
+    return render(request,'hospital/index.html')
+
+
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_dashboard_view(request):
@@ -867,6 +874,22 @@ def contactus_view(request):
 
 
 
-#Developed By : sumit kumar
-#facebook : fb.com/sumit.luv
-#Youtube :youtube.com/lazycoders
+
+
+#---------------------------------------------------------------------------------
+#------------------------ FOOTER RELATED VIEWS START ------------------------------
+#---------------------------------------------------------------------------------
+
+
+#for directing to the privacy policy page
+def privacy_policy_view(request):
+    return render(request,'hospital/privacy_policy.html')
+
+
+#for directing to the terms page
+def terms_view(request):
+    return render(request,'hospital/terms.html')
+
+#---------------------------------------------------------------------------------
+#------------------------ FOOTER RELATED VIEWS END ------------------------------
+#---------------------------------------------------------------------------------

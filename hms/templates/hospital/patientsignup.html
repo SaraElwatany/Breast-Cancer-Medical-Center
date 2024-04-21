@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>HMS - Django</title>
+  <title>Mammocare Solutions</title>
   <style type="text/css">
     body {
       color: #aa082e;
@@ -31,6 +31,7 @@
       padding: 5%;
       border: 1px solid #ced4da;
       margin-bottom: 2%;
+      margin-top: 100px;
     }
 
     .form-control {
@@ -97,7 +98,7 @@
                 {% render_field userForm.password class="form-control" placeholder="Password" %}
               </div>
               <div class="form-group">
-                {% render_field patientForm.mobile class="form-control" pattern="[6789][0-9]{9}" placeholder="Contact Number" %}
+                {% render_field patientForm.mobile class="form-control" pattern="^01[0-9]{9}$" placeholder="Contact Number" %}
               </div>
               <div class="form-group">
                 {% render_field patientForm.assignedDoctorId class="form-control" placeholder="Doctor" %}

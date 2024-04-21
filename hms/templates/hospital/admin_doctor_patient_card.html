@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 {% load static %}
 <html>
 
@@ -11,6 +10,7 @@
       margin: auto;
       text-align: center;
       font-family: arial;
+      margin-top: -50px; /* Adjusted margin to move the card up higher */
     }
 
     .title {
@@ -24,7 +24,7 @@
       display: inline-block;
       padding: 8px;
       color: white;
-      background-color: #000;
+      background-color: #040046;
       text-align: center;
       cursor: pointer;
       width: 100%;
@@ -40,6 +40,7 @@
       display: grid;
       grid-template-columns: auto auto auto;
       padding: 10px;
+      margin-bottom: 100px; /* Increased margin between the grid container and the footer */
     }
 
     a:link {
@@ -54,37 +55,34 @@
 
 <body>
 
-
-
   <div class="grid-container">
     <div class="grid-item">
       <div class="card">
         <img src="{% static "images/admin.png" %}" alt="John" style="width:100%">
-        <p class="title">ADMIN</p>
-        <p><button><a href="/adminclick">View</a></button></p>
+        <p class="title"></p>
+        <p><button><a href="/adminclick">ADMIN</a></button></p>
       </div>
-
     </div>
 
     <div class="grid-item">
       <div class="card">
         <img src="{% static "images/doctor.png" %}" alt="John" style="width:100%">
-        <p class="title">DOCTOR</p>
-        <p><button><a href="/doctorclick">View</a></button></p>
+        <p class="title"></p>
+        <p><button><a href="/doctorclick">DOCTOR</a></button></p>
       </div>
     </div>
 
     <div class="grid-item">
       <div class="card">
         <img src="{% static "images/patient.jpg" %}" alt="John" style="width:100%">
-        <p class="title">PATIENT</p>
-        <p><button><a href="/patientclick">View</a></button></p>
+        <p class="title"></p>
+        <p><button><a href="/patientclick">PATIENT</a></button></p>
       </div>
     </div>
-
   </div>
- 
 
 </body>
 
 </html>
+
+
