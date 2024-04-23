@@ -893,3 +893,133 @@ def terms_view(request):
 #---------------------------------------------------------------------------------
 #------------------------ FOOTER RELATED VIEWS END ------------------------------
 #---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+#---------------------------------------------------------------------------------
+#------------------------ Electronic Records RELATED VIEWS START -----------------
+#---------------------------------------------------------------------------------
+
+
+#for directing to the medical records options
+def admin_medical_records_view(request):
+    return render(request,'hospital/admin-medical-records.html')
+
+
+
+#for directing to the medical records related Database
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_view_records_view(request):
+    medical_records=models.MedicalRecord.objects.all()
+    return render(request,'hospital/admin-view-records.html', {'medical_records': medical_records})
+
+
+
+#for adding a medical record to the related Database
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_add_records_view(request):
+    print('Entered Route')
+    medicalRecordForm=forms.MedicalRecordForm()
+    mydict={'medicalRecordForm': medicalRecordForm,}
+    if request.method=='POST':
+        print('Entered POST')
+        medicalRecordForm=forms.MedicalRecordForm(request.POST, request.FILES)
+        if medicalRecordForm.is_valid():
+            record=medicalRecordForm.save(commit=False)
+            # Get the corresponding IDs
+            doctor_id = request.POST.get('doctor_id')
+            patient_id = request.POST.get('patient_id')
+            record.doctor_id = doctor_id
+            record.patient_id = patient_id
+
+            # Fetch doctor and patient names from the database , models.User.objects.get(id=request.POST.get('patientId')).first_name
+            doctor = models.User.objects.get(id=doctor_id)
+            patient = models.User.objects.get(id=patient_id)
+            print("Doctor ID:", doctor_id)
+            print("Patient ID:", patient_id)
+            print("Doctor Name:", doctor.first_name)
+            print("Patient Name:", patient.first_name)
+
+            record.doctorName = doctor.first_name
+            record.patientName = patient.first_name
+
+            # Print the image URL
+            print("Image URL:", record.image.url)
+
+            # Save the medical record in the database
+            record.save()
+ 
+            return HttpResponseRedirect('admin-view-records')
+    
+        else:
+            print("Form is not valid:", medicalRecordForm.errors)
+    
+    return render(request,'hospital/admin-add-records.html', context=mydict)
+
+
+
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def delete_medical_record_view(request,pk):
+    record=models.MedicalRecord.objects.get(id=pk)
+    record.delete()
+    return redirect('admin-view-records')
+
+
+
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def update_medical_record_view(request,pk):
+    record=models.MedicalRecord.objects.get(id=pk)
+    medicalRecordForm=forms.MedicalRecordForm(request.FILES,instance=record)
+    if request.method=='POST':
+        print('Entered POST')
+        medicalRecordForm=forms.MedicalRecordForm(request.POST, request.FILES, instance=record)
+        if medicalRecordForm.is_valid():
+            record=medicalRecordForm.save(commit=False)
+            # Get the corresponding IDs
+            doctor_id = request.POST.get('doctor_id')
+            patient_id = request.POST.get('patient_id')
+            record.doctor_id = doctor_id
+            record.patient_id = patient_id
+
+            # Fetch doctor and patient names from the database , models.User.objects.get(id=request.POST.get('patientId')).first_name
+            doctor = models.User.objects.get(id=doctor_id)
+            patient = models.User.objects.get(id=patient_id)
+            print("Doctor ID:", doctor_id)
+            print("Patient ID:", patient_id)
+            print("Doctor Name:", doctor.first_name)
+            print("Patient Name:", patient.first_name)
+
+            record.doctorName = doctor.first_name
+            record.patientName = patient.first_name
+
+            # Print the image URL
+            print("Image URL:", record.image.url)
+
+            # Save the medical record in the database
+            record.save()
+ 
+            return redirect('admin-view-records')
+    
+        else:
+            print("Form is not valid:", medicalRecordForm.errors)
+
+    mydict={'medicalRecordForm': medicalRecordForm,}
+    return render(request,'hospital/admin-add-records.html', context=mydict)
+
+
+#---------------------------------------------------------------------------------
+#------------------------ Electronic Records RELATED VIEWS END -------------------
+#---------------------------------------------------------------------------------

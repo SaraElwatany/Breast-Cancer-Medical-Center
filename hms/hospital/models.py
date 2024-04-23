@@ -14,10 +14,10 @@ departments=[('Cardiologist','Cardiologist'),
 
 class Doctor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
-    profile_pic= models.ImageField(upload_to='profile_pic/DoctorProfilePic/',null=True,blank=True)
+    profile_pic= models.ImageField(upload_to='profile_pic/DoctorProfilePic/', null=True,blank=True)
     address = models.CharField(max_length=40)
     mobile = models.CharField(max_length=20,null=True)
-    department= models.CharField(max_length=50,choices=departments,default='Cardiologist')
+    department= models.CharField(max_length=50, default='Oncologist')
     status=models.BooleanField(default=False)
     @property
     def get_name(self):
@@ -81,15 +81,17 @@ class PatientDischargeDetails(models.Model):
 
 
 class MedicalRecord(models.Model):
-    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    patient_id = models.PositiveIntegerField(null=True, default=0)
+    doctor_id = models.PositiveIntegerField(null=True, default=0)
+    patientName=models.CharField(max_length=40)
+    doctorName=models.CharField(max_length=40)
     date = models.DateField(auto_now_add=True)
     details = models.TextField()
     image = models.ImageField(upload_to='medical_record_images/', null=True, blank=True)
     diagnosis = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return f"Medical Record for {self.patient.get_name} - {self.date}"
+        return f"Medical Record for {self.patientName} - {self.date}"
 
 
 #Developed By : sumit kumar

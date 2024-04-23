@@ -107,6 +107,21 @@ urlpatterns +=[
 ]
 
 
+#---------MEDICAL RECORDS RELATED URLS-------------------------------------
+
+urlpatterns +=[
+    # Add a URL pattern for the Medical Records Different Routes
+    path('admin-medical-records', views.admin_medical_records_view, name='admin-medical-records'),
+    path('admin-view-records', views.admin_view_records_view, name='admin-view-records'),
+    path('admin-add-records', views.admin_add_records_view, name='admin-add-records'),
+
+    path('admin-add-records', views.admin_add_records_view, name='admin-add-records'),
+
+    path('delete-record/<int:pk>', views.delete_medical_record_view, name='delete-record'),
+    path('update-record/<int:pk>', views.update_medical_record_view, name='update-record'),
+]
+
+
 #Developed By : sumit kumar
 #facebook : fb.com/sumit.luv
 #Youtube :youtube.com/lazycoders

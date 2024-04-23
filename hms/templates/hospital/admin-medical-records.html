@@ -1,4 +1,4 @@
-{% extends 'hospital/patient_base.html' %}
+{% extends 'hospital/admin_base.html' %}
 {% load static %}
 {% block content %}
 <br><br>
@@ -8,8 +8,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <link href="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+
   <style type="text/css">
+
+    footer {
+      padding: 0px 0px 0px 0px;
+      background: rgb(2, 0, 36);
+      background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(9, 53, 121, 1) 78%);
+      margin: 0px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      text-align: center;
+    }
+
+    footer p {
+      margin: 5px 0; /* Adjust margin */
+      font-size: 14px; /* Increase text size */
+    }
+
+    
     a:link {
       text-decoration: none;
     }
@@ -73,33 +95,33 @@
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
-  <div class="row">
-    <div class="col-md-4 col-xl-6">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-xl-4">
       <div class="card bg-c-blue order-card">
         <div class="card-block">
-          <a href="/patient-view-appointment">
-            <h6 class="m-b-20">View Your Appointments</h6>
+          <a href="/admin-view-records">
+            <h6 class="m-b-20">All Available Records</h6>
           </a>
           <br>
-          <h2 class="text-right"><i class="fas fa-calendar f-left"></i></h2>
+          <h2 class="text-right"><i class="fas fa-user-nurse f-left"></i></h2>
 
         </div>
       </div>
     </div>
 
-    <!-- <div class="col-md-4 col-xl-6">
+
+    <div class="col-md-6 col-xl-4">
       <div class="card bg-c-green order-card">
         <div class="card-block">
-          <a href="/patient-book-appointment">
-            <h6 class="m-b-20">Book Appointment</h6>
+          <a href="/admin-add-records">
+            <h6 class="m-b-20">Register Records</h6>
           </a>
           <br>
-          <h2 class="text-right"><i class="fas fa-book-medical f-left"></i></h2>
+          <h2 class="text-right"><i class="fas fa-user-plus f-left"></i></h2>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </div>
-
-<br><br><br><br><br><br><br><br>
 {% endblock content %}
+

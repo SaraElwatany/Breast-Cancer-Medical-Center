@@ -104,12 +104,16 @@
   <nav class="menu" tabindex="0">
     <div class="smartphone-menu-trigger"></div>
     <header class="avatar">
-      <img src="{% static doctor.profile_pic.url %}" alt="Profile Pic" />
-      <h2>{{request.user.first_name}}</h2>
+      <div style="display: inline-block;">
+        <img src="{% static doctor.profile_pic.url %}" alt="Profile Pic" />
+        <br><br>
+        <h6 style="color: white; font-size: 30px;">Dr.</h6>
+      </div>
+      <h2>{{ request.user.first_name }}</h2>
     </header>
     <ul>
       <li tabindex="0" class="icon-dashboard"><a href="/doctor-dashboard">Dashboard</a></li>
-      <li tabindex="0" class="icon-users"><a href="/doctor-patient">Patient</a></li>
+      <li tabindex="0" class="icon-users"><a href="/doctor-patient">Patients</a></li>
       <li tabindex="0" class="icon-calendar"><a href="/doctor-appointment">Appointments</a></li>
     </ul>
   </nav>

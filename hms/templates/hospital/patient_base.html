@@ -253,10 +253,12 @@
   <nav class="menu" tabindex="0">
     <div class="smartphone-menu-trigger"></div>
     <header class="avatar">
-      <img src="{% static patient.profile_pic.url %}" alt="Profile Pic" />
-      <br><br>
-      <h6></h6>
-      <h2>{{request.user.first_name}}</h2>
+      <div style="display: inline-block;">
+        <img src="{% static patient.profile_pic.url %}" alt="Profile Pic" />
+        <br><br>
+        <h6 style="color: white; font-size: 20px;">Patient</h6>
+      </div>
+      <h2>{{ request.user.first_name }}</h2>
     </header>
     <ul>
       <li tabindex="0" class="icon-dashboard"> <a style="color:white; text-decoration:none;" href="/patient-dashboard"><span>Dashboard</span></a> </li>
@@ -293,7 +295,8 @@
           <div class="col-md-12 col-sm-12">
             <div style="color:#ffffff;" class="wow fadeInUp footer-copyright">
               <p>
-                Copyright &copy; 2021 Developed By Sumit Kumar </p>
+                &copy; 2024 MammoCare Solutions. All rights reserved. | <a href="/privacy_policy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
+              </p>
             </div>
           </div>
         </div>
