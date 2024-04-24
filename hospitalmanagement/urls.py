@@ -107,19 +107,35 @@ urlpatterns +=[
 ]
 
 
+
 #---------MEDICAL RECORDS RELATED URLS-------------------------------------
 
 urlpatterns +=[
-    # Add a URL pattern for the Medical Records Different Routes
+    # Add a URL pattern for the Admin's Medical Records Different Routes
     path('admin-medical-records', views.admin_medical_records_view, name='admin-medical-records'),
     path('admin-view-records', views.admin_view_records_view, name='admin-view-records'),
     path('admin-add-records', views.admin_add_records_view, name='admin-add-records'),
 
-    path('admin-add-records', views.admin_add_records_view, name='admin-add-records'),
-
     path('delete-record/<int:pk>', views.delete_medical_record_view, name='delete-record'),
     path('update-record/<int:pk>', views.update_medical_record_view, name='update-record'),
+
+
+    # Add a URL pattern for the Doctor's Medical Records Different Routes
+    path('doctor-medical-records', views.doctor_medical_records_view, name='doctor-medical-records'),
+    path('doctor-view-records', views.doctor_view_records_view, name='doctor-view-records'),
+    path('doctor-add-records', views.doctor_add_records_view, name='doctor-add-records'),
+
+    path('doctor-delete-record/<int:pk>', views.doctor_delete_medical_record_view, name='doctor-delete-record'),
+    path('doctor-update-record/<int:pk>', views.doctor_update_medical_record_view, name='doctor-update-record'),
+
+
+    path('patient-view-records', views.patient_view_records_view, name='patient-view-records'),
+
 ]
+
+
+
+
 
 
 #Developed By : sumit kumar
