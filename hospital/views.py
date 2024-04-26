@@ -1191,3 +1191,62 @@ def assistant_view(request):
 #---------------------------------------------------------------------------------
 #------------------------ CDSS RELATED VIEWS END ---------------------------------
 #---------------------------------------------------------------------------------
+
+#---------------------------------------------------------------------------------
+#------------------------ HL7 Format Message RELATED -----------------------------
+#---------------------------------------------------------------------------------
+
+import socket
+import hl7apy
+
+def construct_hl7_message(patient_name, doctor_name, appointment_datetime, reason):
+    # Create a new HL7 message
+    hl7_message = hl7apy.Message("SIU_S12")  # SIU_S12 is the HL7 message type for scheduling information unsolicited
+
+    # Populate message fields
+    hl7_message.MSH.msh_3 = "Patient Management System"  # Sending application
+    hl7_message.MSH.msh_5 = "Doctor Scheduling System"   # Receiving application
+    hl7_message.MSH.msh_7 = hl7apy.get_datetime(now=True).strftime("%Y%m%d%H%M%S")  # Message timestamp
+
+    # Create a new scheduling segment
+    siu_segment = hl7_message.add_group("SIU_S12.SIU_S12_PATIENT")
+    siu_segment.pid.pid_5 = patient_name
+    siu_segment.aig.aig_4 = doctor_name
+    siu_segment.rgs.rgs_1 = appointment_datetime.strftime("%Y%m%d%H%M%S")
+    siu_segment.rgs.rgs_2 = reason
+
+    return hl7_message.to_er7()  # Convert HL7 message to ER7 format for transmission
+
+def send_hl7_message(hl7_message):
+    # Print the HL7 message before sending it
+    print("HL7 Message: Book Appointment")
+    print(hl7_message)
+
+    # Assuming HL7 message is sent over TCP/IP using MLLP (Minimal Lower Layer Protocol)
+    with hl7apy.MLLPServer('127.0.0.1', 8000) as server:
+        server.send_message(hl7_message)
+
+def receive_hl7_messages(host, port):
+    # Create a TCP/IP socket
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+        # Bind the socket to the address and port
+        server_socket.bind((host, port))
+        
+        # Listen for incoming connections
+        server_socket.listen(1)
+        print(f"Server listening on {host}:{port}...")
+
+        while True:
+            # Accept a connection
+            client_socket, client_address = server_socket.accept()
+            print(f"Connection from {client_address}")
+
+            # Receive data from the client
+            with client_socket:
+                data = client_socket.recv(1024)
+                if data:
+                    print("Received HL7 message:")
+                    print(data.decode('utf-8'))
+
+# Example usage
+receive_hl7_messages('127.0.0.1', 8000)
