@@ -19,6 +19,39 @@
     .row {
       margin: 100px;
     }
+
+    footer {
+      padding: 0px 0px;
+      background: rgb(2, 0, 36);
+      background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(9, 53, 121, 1) 78%);
+      position: fixed;
+      margin: 0px;
+      width: 100%;
+      height: 50px;
+      color: white; /* Add text color */
+      z-index: 0; /* Ensure higher z-index */
+    }
+
+    footer p {
+        margin: 5px 0; /* Adjust margin */
+        font-size: 14px; /* Increase text size */
+    }
+
+
+    .footer-container {
+      position: fixed;
+      /*bottom: 0;*/
+      width: 100%;
+      z-index: 1001; /* Ensure higher z-index */
+      /*top: 5;*/
+    }
+
+    .footer-content {
+        padding: 10px 0; /* Add padding to the footer content */
+        bottom: 0px; /* Add margin to the bottom */
+        /*top: 5;*/
+    }
+    
   </style>
 </head>
 
@@ -36,6 +69,8 @@
           <th>Contact</th>
           <th>Address</th>
           <th>Appointment Date</th>
+          <th>Approve</th>
+          <th>Reject</th>
         </tr>
       </thead>
       {% for a,p in appointments %}
@@ -46,10 +81,23 @@
         <td>{{p.mobile}}</td>
         <td>{{p.address}}</td>
         <td>{{a.appointmentDate}}</td>
+        <td><a class="btn btn-primary btn-xs" href="{% url 'approve-appointment' a.id  %}"><span class="glyphicon glyphicon-ok"></span></a></td>
+        <td><a class="btn btn-danger btn-xs" href="{% url 'reject-appointment' a.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
       </tr>
       {% endfor %}
     </table>
   </div>
+</div>
+
+
+<div class="footer-container">
+  <footer>
+    <div class="footer-content">
+      <p>
+        &copy; 2024 MammoCare Solutions. All rights reserved. | <a href="/privacy_policy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
+      </p>
+    </div>
+  </footer>
 </div>
 
 

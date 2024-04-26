@@ -909,7 +909,7 @@ def terms_view(request):
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_medical_records_view(request):
-    return render(request,'hospital/admin-medical-records.html')
+    return render(request,'hospital/admin-medical-records.html') 
 
 
 
@@ -918,7 +918,7 @@ def admin_medical_records_view(request):
 @user_passes_test(is_admin)
 def admin_view_records_view(request):
     medical_records=models.MedicalRecord.objects.all()
-    return render(request,'hospital/admin-view-records.html', {'medical_records': medical_records})
+    return render(request,'hospital/admin-view-records.html', {'medical_records': medical_records,})
 
 
 
@@ -1028,7 +1028,11 @@ def update_medical_record_view(request,pk):
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_medical_records_view(request):
-    return render(request,'hospital/doctor-medical-records.html')
+    doctor = models.Doctor.objects.get(user=request.user)  # Adjust this query according to your model structure
+    context = {
+        'doctor': doctor,
+    }
+    return render(request,'hospital/doctor-medical-records.html', context)
 
 
 
@@ -1036,8 +1040,9 @@ def doctor_medical_records_view(request):
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_view_records_view(request):
+    doctor = models.Doctor.objects.get(user=request.user)  # Get the current user
     medical_records=models.MedicalRecord.objects.filter(doctor_id=request.user.id)
-    return render(request,'hospital/doctor-view-records.html', {'medical_records': medical_records})
+    return render(request,'hospital/doctor-view-records.html', {'medical_records': medical_records, 'doctor': doctor,})
 
 
 
@@ -1047,7 +1052,8 @@ def doctor_view_records_view(request):
 def doctor_add_records_view(request):
     #print('Entered Route')
     medicalRecordForm=forms.MedicalRecordForm()
-    mydict={'medicalRecordForm': medicalRecordForm,}
+    doctor = models.Doctor.objects.get(user=request.user)  # Get the current user
+    mydict={'medicalRecordForm': medicalRecordForm, 'doctor': doctor,}
     if request.method=='POST':
         print('Entered POST')
         medicalRecordForm=forms.MedicalRecordForm(request.POST, request.FILES)
@@ -1088,9 +1094,10 @@ def doctor_add_records_view(request):
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_delete_medical_record_view(request, pk):
+    doctor = models.Doctor.objects.get(user=request.user)  # Get the current user
     record=models.MedicalRecord.objects.get(id=pk)
     record.delete()
-    return redirect('doctor-view-records')
+    return redirect('doctor-view-records', context={'doctor': doctor,})
 
 
 
@@ -1099,6 +1106,7 @@ def doctor_delete_medical_record_view(request, pk):
 def doctor_update_medical_record_view(request,pk):
     record=models.MedicalRecord.objects.get(id=pk)
     medicalRecordForm=forms.MedicalRecordForm(request.FILES,instance=record)
+    doctor = models.Doctor.objects.get(user=request.user)  # Get the current user
     if request.method=='POST':
         print('Entered POST')
         medicalRecordForm=forms.MedicalRecordForm(request.POST, request.FILES, instance=record)
@@ -1132,7 +1140,8 @@ def doctor_update_medical_record_view(request,pk):
         else:
             print("Form is not valid:", medicalRecordForm.errors)
 
-    mydict={'medicalRecordForm': medicalRecordForm,}
+    mydict={'medicalRecordForm': medicalRecordForm,
+            'doctor': doctor,}
 
     return render(request,'hospital/doctor-add-records.html', context=mydict)
 
@@ -1144,9 +1153,41 @@ def doctor_update_medical_record_view(request,pk):
 @user_passes_test(is_patient)
 def patient_view_records_view(request):
     medical_records=models.MedicalRecord.objects.filter(patient_id=request.user.id)
-    return render(request,'hospital/patient-view-records.html', {'medical_records': medical_records})
+    patient = models.Patient.objects.get(user=request.user)  # Get the current user
+    return render(request,'hospital/patient-view-records.html', {'medical_records': medical_records, 'patient': patient,})
 
 
 #---------------------------------------------------------------------------------
 #------------------------ Electronic Records RELATED VIEWS END -------------------
+#---------------------------------------------------------------------------------
+
+
+
+
+
+
+#---------------------------------------------------------------------------------
+#------------------------ CDSS RELATED VIEWS START -------------------------------
+#---------------------------------------------------------------------------------
+
+
+
+# for directing to the CDSS Page
+@login_required(login_url='doctorlogin')
+@user_passes_test(is_doctor)
+def assistant_view(request):
+    doctor = models.Doctor.objects.get(user=request.user)  # Get the current user
+    context = {
+        'doctor': doctor,
+    }
+    return render(request,'hospital/assistant.html', context)
+
+
+
+
+
+
+
+#---------------------------------------------------------------------------------
+#------------------------ CDSS RELATED VIEWS END ---------------------------------
 #---------------------------------------------------------------------------------

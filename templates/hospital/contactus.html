@@ -4,8 +4,30 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/mammocare-solutions-favicon-color.png' %}">
   <title>MammoCare Solutions</title>
   <style>
+    /* Footer styling */
+    .footer-container {
+      position: fixed; /* Keep the footer fixed */
+      bottom: 0; /* Position at the bottom */
+      width: 100%; /* Full width */
+      background: rgb(2, 0, 36);
+      background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(9, 53, 121, 1) 78%);
+      color: white; /* Text color */
+      text-align: center; /* Center align text */
+      z-index: 1000; /* Ensure higher z-index */
+    }
+
+    .footer-content {
+      padding: 10px 0; /* Add padding to the footer content */
+    }
+
+    footer p {
+      margin: 5px 0; /* Adjust margin */
+      font-size: 17px; /* Increase text size */
+    }
+
     body {
       font-family: Arial, sans-serif;
       background-color: #f8f9fa;
@@ -71,17 +93,6 @@
       background-color: rgb(86, 193, 243); /* Changed hover color to darker navy */
       color: #fff;
     }
-
-    /* Footer styling */
-    .footer {
-      background-color: #f8f9fa;
-      padding: 10px;
-      text-align: center;
-      margin-top: auto; /* Push the footer to the bottom */
-      width: 100%; /* Set the width to 100% */
-      position: fixed;
-      bottom: 0;
-    }
   </style>
 </head>
 
@@ -111,14 +122,20 @@
     </form>
   </div>
 
-  <!-- Footer -->
-  <div class="footer">
-    {% include "hospital/footer.html" %}
+  <div class="footer-container">
+    <footer>
+      <div class="footer-content">
+        <p>
+          &copy; 2024 MammoCare Solutions. All rights reserved. | <a href="/privacy_policy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
+        </p>
+      </div>
+    </footer>
   </div>
 
 </body>
 
 </html>
+
 
 
 

@@ -131,6 +131,9 @@ urlpatterns +=[
 
     path('patient-view-records', views.patient_view_records_view, name='patient-view-records'),
 
+
+    path('assistant', views.assistant_view, name='assistant'),
+
 ]
 
 
