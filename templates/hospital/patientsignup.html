@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-{% load static}
+{% load static %}
 {% load widget_tweaks %}
 <html lang="en" dir="ltr">
 
@@ -89,7 +89,12 @@
                 {% render_field patientForm.symptoms class="form-control" placeholder="Symptoms" %}
               </div>
               <div class="form-group">
-                {% render_field patientForm.profile_pic required="required" class="form-control" placeholder="Profile Picture" %}
+                <label for="profile_pic">Profile Picture</label>
+                {% render_field patientForm.profile_pic required="required" class="form-control" id="profile_pic" placeholder="Profile Picture" %}
+              </div>
+              <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                {% render_field patientForm.dob required="required" class="form-control" id="dob" placeholder="Date Of Birth" %}
               </div>
             </div>
             <div class="col-md-6">
@@ -105,8 +110,10 @@
               <div class="form-group">
                 {% render_field patientForm.assignedDoctorId class="form-control" placeholder="Doctor" %}
               </div>
-
             </div>
+          </div>
+        </div>
+        
           </div>
           <button type="submit" class="btnSubmit">Register</button>
           <div class="text-center">Already have an account? <a href="patientlogin">Login here</a></div>

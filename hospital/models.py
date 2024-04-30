@@ -1,15 +1,7 @@
 from django.db import models
+from datetime import date
 from django.contrib.auth.models import User
 
-
-
-departments=[('Cardiologist','Cardiologist'),
-('Dermatologists','Dermatologists'),
-('Emergency Medicine Specialists','Emergency Medicine Specialists'),
-('Allergists/Immunologists','Allergists/Immunologists'),
-('Anesthesiologists','Anesthesiologists'),
-('Colon and Rectal Surgeons','Colon and Rectal Surgeons')
-]
 
 
 class Doctor(models.Model):
@@ -38,6 +30,7 @@ class Patient(models.Model):
     symptoms = models.CharField(max_length=100,null=False)
     assignedDoctorId = models.PositiveIntegerField(null=True)
     admitDate=models.DateField(auto_now=True)
+    dob = models.DateField()
     status=models.BooleanField(default=False)
     @property
     def get_name(self):
@@ -49,12 +42,14 @@ class Patient(models.Model):
         return self.user.first_name+" ("+self.symptoms+")"
 
 
+
 class Appointment(models.Model):
     patientId=models.PositiveIntegerField(null=True)
     doctorId=models.PositiveIntegerField(null=True)
     patientName=models.CharField(max_length=40,null=True)
     doctorName=models.CharField(max_length=40,null=True)
-    appointmentDate=models.DateField(auto_now=True)
+    appointmentDate=models.DateField(null=False)
+    appointmentTime=models.TimeField(null=False)
     description=models.TextField(max_length=500)
     status=models.BooleanField(default=False)
 

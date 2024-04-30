@@ -33,7 +33,7 @@ class DoctorForm(forms.ModelForm):
 class PatientUserForm(forms.ModelForm):
     class Meta:
         model=User
-        fields=['first_name','last_name','username','password']
+        fields=['first_name','last_name','username', 'password']
         widgets = {
         'password': forms.PasswordInput()
         }
@@ -44,7 +44,10 @@ class PatientForm(forms.ModelForm):
     assignedDoctorId=forms.ModelChoiceField(queryset=models.Doctor.objects.all().filter(status=True),empty_label="Name", to_field_name="user_id")
     class Meta:
         model=models.Patient
-        fields=['address','mobile','status','symptoms','profile_pic']
+        fields=['dob', 'address','mobile','status','symptoms','profile_pic']
+        widgets = {
+            'dob': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 
 
@@ -53,14 +56,22 @@ class AppointmentForm(forms.ModelForm):
     patientId=forms.ModelChoiceField(queryset=models.Patient.objects.all().filter(status=True),empty_label="Patient Name and Symptoms", to_field_name="user_id")
     class Meta:
         model=models.Appointment
-        fields=['description','status']
+        fields=['description','status', 'appointmentDate', 'appointmentTime']
+        widgets = {
+            'appointmentDate': forms.DateInput(attrs={'type': 'date'}),
+            'appointmentTime': forms.TimeInput(attrs={'type': 'time'}),
+        }
 
 
 class PatientAppointmentForm(forms.ModelForm):
     doctorId=forms.ModelChoiceField(queryset=models.Doctor.objects.all().filter(status=True),empty_label="Doctor", to_field_name="user_id")
     class Meta:
         model=models.Appointment
-        fields=['description','status']
+        fields=['description','status', 'appointmentDate', 'appointmentTime']
+        widgets = {
+            'appointmentDate': forms.DateInput(attrs={'type': 'date'}),
+            'appointmentTime': forms.TimeInput(attrs={'type': 'time'}),
+        }
 
 
 #for contact us page

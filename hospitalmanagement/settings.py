@@ -33,15 +33,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-        'hospital',
-        'widget_tweaks',
+
+    'hospital',
+    'widget_tweaks',
+    'channels',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +56,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+CHANNEL_LAYERS = {
+        'default': { 
+            'BACKEND': 'channels.layers.InMemoryChannelLayer'
+        }
+}
+            
+
 
 ROOT_URLCONF = 'hospitalmanagement.urls'
 
@@ -72,6 +85,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'hospitalmanagement.wsgi.application'
+ASGI_APPLICATION = 'hospitalmanagement.asgi.application'
 
 
 # Database

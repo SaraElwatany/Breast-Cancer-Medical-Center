@@ -102,6 +102,14 @@
             <div class="form-group">
               {% render_field appointmentForm.patientId class="form-control" placeholder="patient" %}
             </div>
+            <div class="form-group">
+              <label for="app_date">Appointment Date</label>
+              {% render_field appointmentForm.appointmentDate class="form-control" id="app_date" placeholder="Appointment Date" %}
+            </div>
+            <div class="form-group">
+              <label for="app_time">Appointment Time</label>
+              {% render_field appointmentForm.appointmentTime class="form-control" id="app_time" placeholder="Appointment Time" %}
+            </div>
 
           </div>
 

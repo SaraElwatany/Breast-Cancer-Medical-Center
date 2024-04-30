@@ -1,4 +1,5 @@
 {% extends 'hospital/admin_base.html' %}
+{% load static %}
 {% block content %}
 
 <head>
@@ -66,14 +67,22 @@
           <th>Patient Name</th>
           <th>Description</th>
           <th>Date</th>
+          <th>Time</th>
+          <th>Status</th>
         </tr>
       </thead>
       {% for a in appointments %}
       <tr>
-        <td> {{a.doctorName}}</td>
+        <td>{{a.doctorName}}</td>
         <td>{{a.patientName}}</td>
         <td>{{a.description}}</td>
         <td>{{a.appointmentDate}}</td>
+        <td>{{a.appointmentTime}}</td>
+        {%if a.status%}
+        <td> <span class="label label-primary">Confirmed</span></td>
+        {% else %}
+        <td> <span class="label label-success">Pending</span></td>
+        {% endif %}
       </tr>
       {% endfor %}
     </table>

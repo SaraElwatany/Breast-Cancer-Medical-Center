@@ -1,5 +1,6 @@
 {% extends 'hospital/patient_base.html' %}
 {% load widget_tweaks %}
+{% load static %}
 {% block content %}
 
 <head>
@@ -106,6 +107,14 @@
             </div>
             <div class="form-group">
               {% render_field appointmentForm.doctorId class="form-control" placeholder="doctor" %}
+            </div>
+            <div class="form-group">
+              <label for="app_date">Appointment Date</label>
+              {% render_field appointmentForm.appointmentDate required="required" class="form-control" id="app_date" placeholder="Appointment Date" %}
+            </div>
+            <div class="form-group">
+              <label for="app_time">Appointment Time</label>
+              {% render_field appointmentForm.appointmentTime required="required" class="form-control" id="app_time" placeholder="Appointment Time" %}
             </div>
             
 

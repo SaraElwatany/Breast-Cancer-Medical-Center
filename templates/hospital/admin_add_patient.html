@@ -1,5 +1,6 @@
 {% extends 'hospital/admin_base.html' %}
 {% load widget_tweaks %}
+{% load static %}
 {% block content %}
 
 <head>
@@ -106,6 +107,10 @@
             </div>
             <div class="form-group">
               {% render_field patientForm.profile_pic required="required" class="form-control" placeholder="Profile Picture" %}
+            </div>
+            <div class="form-group">
+              <label for="dob">Date of Birth</label>
+              {% render_field patientForm.dob required="required" class="form-control" id="dob" placeholder="Date Of Birth" %}
             </div>
           </div>
           <div class="col-md-6">

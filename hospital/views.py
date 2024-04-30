@@ -1,38 +1,48 @@
-from django.shortcuts import render,redirect,reverse
+# Create your views here
+
+
+# Import the necessary Modules
+import uuid
+import socket
 from . import forms,models
 from django.db.models import Sum
+from django.conf import settings
+from django.core.mail import send_mail
+from datetime import datetime,timedelta,date
 from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
-from django.core.mail import send_mail
+from django.shortcuts import render,redirect,reverse
 from django.contrib.auth.decorators import login_required,user_passes_test
-from datetime import datetime,timedelta,date
-from django.conf import settings
+
+
 
 
 user_type = 'GUEST'
+received_message = []
 
-# Create your views here.
+
+# Navigate to the homepage 
 def home_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
     return render(request,'hospital/index.html')
 
 
-#for showing signup/login button for admin(by sumit)
+# for showing signup/login button for admin(by sumit)
 def adminclick_view(request):
     #if request.user.is_authenticated and is_admin(request.user):
         #return HttpResponseRedirect('afterlogin')
     return render(request,'hospital/adminclick.html')
 
 
-#for showing signup/login button for doctor(by sumit)
+# for showing signup/login button for doctor(by sumit)
 def doctorclick_view(request):
     #if request.user.is_authenticated and is_doctor(request.user):
         #return HttpResponseRedirect('afterlogin')
     return render(request,'hospital/doctorclick.html')
 
 
-#for showing signup/login button for patient(by sumit)
+# for showing signup/login button for patient(by sumit)
 def patientclick_view(request):
     #if request.user.is_authenticated and is_patient(request.user):
         #return HttpResponseRedirect('afterlogin')
@@ -40,7 +50,7 @@ def patientclick_view(request):
 
 
 
-
+# Get Info From Admin Signup Form
 def admin_signup_view(request):
     form=forms.AdminSigupForm()
     if request.method=='POST':
@@ -56,7 +66,7 @@ def admin_signup_view(request):
 
 
 
-
+# Get Info From Doctor Signup Form
 def doctor_signup_view(request):
     userForm=forms.DoctorUserForm()
     doctorForm=forms.DoctorForm()
@@ -77,6 +87,8 @@ def doctor_signup_view(request):
     return render(request,'hospital/doctorsignup.html',context=mydict)
 
 
+
+# Get Info From Patient Signup Form
 def patient_signup_view(request):
     userForm=forms.PatientUserForm()
     patientForm=forms.PatientForm()
@@ -102,7 +114,7 @@ def patient_signup_view(request):
 
 
 
-#-----------for checking user is doctor , patient or admin(by sumit)
+# Functions For checking If user is: doctor , patient or admin (by sumit)
 def is_admin(user):
     return user.groups.filter(name='ADMIN').exists()
 def is_doctor(user):
@@ -111,7 +123,9 @@ def is_patient(user):
     return user.groups.filter(name='PATIENT').exists()
 
 
-#---------AFTER ENTERING CREDENTIALS WE CHECK WHETHER USERNAME AND PASSWORD IS OF ADMIN,DOCTOR OR PATIENT
+
+
+# AFTER ENTERING CREDENTIALS WE CHECK WHETHER USERNAME AND PASSWORD IS OF ADMIN,DOCTOR OR PATIENT
 def afterlogin_view(request):
     if is_admin(request.user):
         return redirect('admin-dashboard')
@@ -138,6 +152,9 @@ def afterlogin_view(request):
 #---------------------------------------------------------------------------------
 #------------------------ ADMIN RELATED VIEWS START ------------------------------
 #---------------------------------------------------------------------------------
+
+
+# Function For Retrieving Info For Admin Dashboard
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_dashboard_view(request):
@@ -164,6 +181,7 @@ def admin_dashboard_view(request):
     'pendingappointmentcount':pendingappointmentcount,
     }
     return render(request,'hospital/admin_dashboard.html',context=mydict)
+
 
 
 # this view for sidebar click on admin page
@@ -246,12 +264,15 @@ def admin_add_doctor_view(request):
 
 
 
+
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_approve_doctor_view(request):
     #those whose approval are needed
     doctors=models.Doctor.objects.all().filter(status=False)
     return render(request,'hospital/admin_approve_doctor.html',{'doctors':doctors})
+
+
 
 
 @login_required(login_url='adminlogin')
@@ -261,6 +282,7 @@ def approve_doctor_view(request,pk):
     doctor.status=True
     doctor.save()
     return redirect(reverse('admin-approve-doctor'))
+
 
 
 @login_required(login_url='adminlogin')
@@ -364,6 +386,7 @@ def admin_add_patient_view(request):
 
 
 #------------------FOR APPROVING PATIENT BY ADMIN----------------------
+
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_approve_patient_view(request):
@@ -395,6 +418,8 @@ def reject_patient_view(request,pk):
 
 
 #--------------------- FOR DISCHARGING PATIENT BY ADMIN START-------------------------
+
+
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_discharge_patient_view(request):
@@ -453,6 +478,8 @@ def discharge_patient_view(request,pk):
 
 
 #--------------for discharge patient bill (pdf) download and printing
+
+
 import io
 from xhtml2pdf import pisa
 from django.template.loader import get_template
@@ -492,7 +519,9 @@ def download_pdf_view(request,pk):
 
 
 
-#-----------------APPOINTMENT START--------------------------------------------------------------------
+#-----------------APPOINTMENT START-------------------------------------------------------
+
+
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_appointment_view(request):
@@ -503,7 +532,7 @@ def admin_appointment_view(request):
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_view_appointment_view(request):
-    appointments=models.Appointment.objects.all().filter(status=True)
+    appointments=models.Appointment.objects.all().filter()
     return render(request,'hospital/admin_view_appointment.html',{'appointments':appointments})
 
 
@@ -511,6 +540,7 @@ def admin_view_appointment_view(request):
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_add_appointment_view(request):
+
     appointmentForm=forms.AppointmentForm()
     mydict={'appointmentForm':appointmentForm,}
     if request.method=='POST':
@@ -519,11 +549,61 @@ def admin_add_appointment_view(request):
             appointment=appointmentForm.save(commit=False)
             appointment.doctorId=request.POST.get('doctorId')
             appointment.patientId=request.POST.get('patientId')
-            appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
-            appointment.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
-            appointment.status=True
+            #appointment_date_str = request.POST.get('appointmentDate')
+            #appointment_date = datetime.fromisoformat(appointment_date_str)
+            #appointment.appointmentDate = appointment_date
+            # Parse date string to datetime object
+            appointment.appointmentDate = datetime.strptime(request.POST.get('appointmentDate'), '%Y-%m-%d').date()
+            # Parse time string to datetime object
+            appointment.appointmentTime = datetime.strptime(request.POST.get('appointmentTime'), '%H:%M').time()
+            appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name + ' ' + models.User.objects.get(id=request.POST.get('doctorId')).last_name
+            appointment.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name + ' ' + models.User.objects.get(id=request.POST.get('patientId')).last_name
+            appointment.status=False        # Wait For Doctor Approval
             appointment.save()
-        return HttpResponseRedirect('admin-view-appointment')
+
+            # Generate a Dictionary of appointment Data to be converted to HL7 Message
+            appointment_data = {'patient_id': request.POST.get('patientId'),
+                                'patient_first_name': models.User.objects.get(id=request.POST.get('patientId')).first_name,
+                                'patient_last_name':  models.User.objects.get(id=request.POST.get('patientId')).last_name,
+                                'patient_date_of_birth': models.Patient.objects.get(user_id=request.POST.get('patientId')).dob,
+                                'doctor_id': request.POST.get('doctorId'),
+                                'doctor_first_name':  models.User.objects.get(id=request.POST.get('doctorId')).first_name,
+                                'doctor_last_name': models.User.objects.get(id=request.POST.get('doctorId')).last_name,
+                                'date': request.POST.get('appointmentDate') ,
+                                'time': request.POST.get('appointmentTime') ,
+                                'message': request.POST.get('description'),                                
+                                'appointment_id': models.Appointment.objects.latest('id').id,
+                                'patient_address': models.Patient.objects.get(user_id=request.POST.get('patientId')).address,
+                                'patient_phone': models.Patient.objects.get(user_id=request.POST.get('patientId')).mobile,
+            }
+
+
+
+            # Get the HL7 Message
+            hl7_message = generate_hl7_message(appointment_data)
+            print(hl7_message)
+
+            # Try to establish a connection with the server & send the HL7 message
+            # Server IP address and port
+            HOST = '192.168.1.10'
+            PORT = 8000
+
+            try:
+                print('Starting Connection From the Client Side')
+                # Create a socket object
+                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                # Connect to the server
+                client_socket.connect((HOST, PORT))
+                # Send HL7 message
+                client_socket.sendall(hl7_message.encode())
+                # Close the connection
+                client_socket.close()
+            except Exception as e:
+                return HttpResponse(f"Error: {e}")
+
+            return HttpResponseRedirect('admin-view-appointment')
+
+        #return HttpResponseRedirect('admin-view-appointment')
     return render(request,'hospital/admin_add_appointment.html',context=mydict)
 
 
@@ -553,6 +633,9 @@ def reject_appointment_view(request,pk):
     appointment=models.Appointment.objects.get(id=pk)
     appointment.delete()
     return redirect('admin-approve-appointment')
+
+
+
 #---------------------------------------------------------------------------------
 #------------------------ ADMIN RELATED VIEWS END ------------------------------
 #---------------------------------------------------------------------------------
@@ -563,8 +646,11 @@ def reject_appointment_view(request,pk):
 
 
 #---------------------------------------------------------------------------------
-#------------------------ DOCTOR RELATED VIEWS START ------------------------------
+#------------------------ DOCTOR RELATED VIEWS START -----------------------------
 #---------------------------------------------------------------------------------
+
+
+
 def wait_approval_view(request):
     return render(request,'hospital/index.html')
 
@@ -631,31 +717,96 @@ def doctor_appointment_view(request):
 
 
 
+
+
+
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_view_appointment_view(request):
+    doctor=models.Doctor.objects.get(user_id=request.user.id) # for profile picture of doctor in sidebar
+    appointments=models.Appointment.objects.all().filter(status=False, doctorId=request.user.id) # 
+    patientid=[]
+    for a in appointments:
+        patientid.append(a.patientId)
+    patients=models.Patient.objects.all().filter(status=True, user_id__in=patientid) # 
+    print("Length of appointments:", len(appointments))
+    print("Length of patients:", len(patients))
+    # appointments_with_patients = zip(appointments, patients)
+    appointments_with_patients = appointments
+    #print("Zipped appointments:", appointments_with_patients)
+    return render(request,'hospital/doctor_view_appointment.html',{'appointments_with_patients':appointments_with_patients,'doctor':doctor})
+
+
+
+
+
+
+
+@login_required(login_url='doctorlogin')
+@user_passes_test(is_doctor)
+def doctor_approve_appointment_view(request,pk):
     doctor=models.Doctor.objects.get(user_id=request.user.id) #for profile picture of doctor in sidebar
+    appointment=models.Appointment.objects.get(id=pk)
+    appointment.status=True
+    appointment.save()
     appointments=models.Appointment.objects.all().filter(status=True,doctorId=request.user.id)
     patientid=[]
     for a in appointments:
         patientid.append(a.patientId)
-    patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
-    appointments=zip(appointments,patients)
-    return render(request,'hospital/doctor_view_appointment.html',{'appointments':appointments,'doctor':doctor})
+    #patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
+    #appointments=zip(appointments,patients)
+    #return render(request,'hospital/doctor_delete_appointment.html', context={'appointments': appointments, 'doctor': doctor})
+    return redirect('doctor-view-appointment')
+
+
+
+
+
+
+
+@login_required(login_url='doctorlogin')
+@user_passes_test(is_doctor)
+def doctor_reject_appointment_view(request,pk):
+    doctor=models.Doctor.objects.get(user_id=request.user.id) # for profile picture of doctor in sidebar
+    appointment=models.Appointment.objects.get(id=pk)
+    appointment.delete()
+    appointments=models.Appointment.objects.all().filter(status=True,doctorId=request.user.id)
+    patientid=[]
+    for a in appointments:
+        patientid.append(a.patientId)
+    #patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
+    #appointments=zip(appointments,patients)
+    #return render(request,'hospital/doctor_delete_appointment.html', context={'appointments': appointments, 'doctor': doctor})
+    return redirect('doctor-view-appointment')
+
+
+
 
 
 
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_delete_appointment_view(request):
-    doctor=models.Doctor.objects.get(user_id=request.user.id) #for profile picture of doctor in sidebar
-    appointments=models.Appointment.objects.all().filter(status=True,doctorId=request.user.id)
+    doctor=models.Doctor.objects.get(user_id=request.user.id) # for profile picture of doctor in sidebar
+    appointments=models.Appointment.objects.all().filter(status=True, doctorId=request.user.id)
     patientid=[]
+    pictures = []
     for a in appointments:
         patientid.append(a.patientId)
-    patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
-    appointments=zip(appointments,patients)
-    return render(request,'hospital/doctor_delete_appointment.html',{'appointments':appointments,'doctor':doctor})
+        #patient=models.Patient.objects.get(status=True,user_id=a.patientId)
+        #pictures.append(patient.profile_pic)
+    #patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
+    #appointments_with_patients = zip(appointments, patients)
+    print("Length of appointments:", len(appointments))
+    print("Length of pictures:", len(pictures))
+    #print("Length of patients:", len(patients))
+    #appointments_with_pic = zip(appointments, pictures)
+    appointments_with_pic = appointments
+    return render(request,'hospital/doctor_delete_appointment.html',{'appointments_with_pic':appointments_with_pic,'doctor':doctor})
+    
+
+
+
 
 
 
@@ -669,14 +820,15 @@ def delete_appointment_view(request,pk):
     patientid=[]
     for a in appointments:
         patientid.append(a.patientId)
-    patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
-    appointments=zip(appointments,patients)
-    return render(request,'hospital/doctor_delete_appointment.html',{'appointments':appointments,'doctor':doctor})
+    #patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
+    #appointments=zip(appointments,patients)
+    #return render(request,'hospital/doctor_delete_appointment.html',{'appointments':appointments,'doctor':doctor})
+    return redirect('doctor-delete-appointment')
 
 
 
 #---------------------------------------------------------------------------------
-#------------------------ DOCTOR RELATED VIEWS END ------------------------------
+#------------------------ DOCTOR RELATED VIEWS END -------------------------------
 #---------------------------------------------------------------------------------
 
 
@@ -685,8 +837,11 @@ def delete_appointment_view(request,pk):
 
 
 #---------------------------------------------------------------------------------
-#------------------------ PATIENT RELATED VIEWS START ------------------------------
+#------------------------ PATIENT RELATED VIEWS START ----------------------------
 #---------------------------------------------------------------------------------
+
+
+
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
 def patient_dashboard_view(request):
@@ -713,6 +868,26 @@ def patient_appointment_view(request):
 
 
 
+
+
+
+# WebSocket client code to send HL7 message to the server
+# Replace 'your-server-address' with the actual WebSocket server address
+import asyncio
+import websockets
+
+async def send_hl7_message(message):
+    uri = "ws://127.0.0.1:8000/ws/"  # "ws://localhost:8000/ws/patient_book_appointment/"
+    async with websockets.connect(uri) as websocket:
+        await websocket.send(message)
+
+
+
+def send_appointment_hl7_message(appointment_data):
+    asyncio.run(send_hl7_message(appointment_data))
+
+
+
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
 def patient_book_appointment_view(request):
@@ -727,34 +902,9 @@ def patient_book_appointment_view(request):
             desc=request.POST.get('description')
 
             doctor=models.Doctor.objects.get(user_id=request.POST.get('doctorId'))
-            
-            if doctor.department == 'Cardiologist':
-                if 'heart' in desc:
-                    pass
-                else:
-                    print('else')
-                    message="Please Choose Doctor According To Disease"
-                    return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
-
-
-            if doctor.department == 'Dermatologists':
-                if 'skin' in desc:
-                    pass
-                else:
-                    print('else')
-                    message="Please Choose Doctor According To Disease"
-                    return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
 
             if doctor.department == 'Emergency Medicine Specialists':
                 if 'fever' in desc:
-                    pass
-                else:
-                    print('else')
-                    message="Please Choose Doctor According To Disease"
-                    return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
-
-            if doctor.department == 'Allergists/Immunologists':
-                if 'allergy' in desc:
                     pass
                 else:
                     print('else')
@@ -769,27 +919,66 @@ def patient_book_appointment_view(request):
                     message="Please Choose Doctor According To Disease"
                     return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
 
-            if doctor.department == 'Colon and Rectal Surgeons':
-                if 'cancer' in desc:
-                    pass
-                else:
-                    print('else')
-                    message="Please Choose Doctor According To Disease"
-                    return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
-
-
-
-
 
             appointment=appointmentForm.save(commit=False)
             appointment.doctorId=request.POST.get('doctorId')
-            appointment.patientId=request.user.id #----user can choose any patient but only their info will be stored
-            appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
-            appointment.patientName=request.user.first_name #----user can choose any patient but only their info will be stored
+            appointment.patientId=request.user.id # user can choose any patient but only their info will be stored
+            appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name + ' ' + models.User.objects.get(id=request.POST.get('doctorId')).last_name
+            appointment.patientName=request.user.first_name + ' ' + request.user.last_name
+            # Parse date string to datetime object
+            appointment.appointmentDate = datetime.strptime(request.POST.get('appointmentDate'), '%Y-%m-%d').date()
+            # Parse time string to datetime object
+            appointment.appointmentTime = datetime.strptime(request.POST.get('appointmentTime'), '%H:%M').time()
             appointment.status=False
+            appointment.description = desc
             appointment.save()
-        return HttpResponseRedirect('patient-view-appointment')
-    return render(request,'hospital/patient_book_appointment.html',context=mydict)
+
+            # Generate a Dictionary of appointment Data to be converted to HL7 Message
+            appointment_data = {'patient_id': request.user.id,
+                                'patient_first_name': models.User.objects.get(id=request.user.id).first_name,
+                                'patient_last_name':  models.User.objects.get(id=request.user.id).last_name,
+                                'patient_date_of_birth': models.Patient.objects.get(user_id=request.user.id).dob,
+                                'doctor_id': request.POST.get('doctorId'),
+                                'doctor_first_name':  models.User.objects.get(id=request.POST.get('doctorId')).first_name,
+                                'doctor_last_name': models.User.objects.get(id=request.POST.get('doctorId')).last_name,
+                                'date': request.POST.get('appointmentDate') ,
+                                'time': request.POST.get('appointmentTime') ,
+                                'message': request.POST.get('description'),
+                                'appointment_id': models.Appointment.objects.latest('id').id,
+                                'patient_address': models.Patient.objects.get(user_id=request.user.id).address,
+                                'patient_phone': models.Patient.objects.get(user_id=request.user.id).mobile,
+            }
+
+
+            # Encrypt the Appointment Data using HL7 Protocol
+            hl7_message = generate_hl7_message(appointment_data)
+            print('HL7 Message:', hl7_message)
+
+
+            # Try to establish a connection with the server & send the HL7 message
+            # Server IP address and port
+            HOST = '192.168.1.10'
+            PORT = 8000
+
+            try:
+                print('Starting Connection From the Client Side')
+                # Create a socket object
+                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                # Connect to the server
+                client_socket.connect((HOST, PORT))
+                # Send HL7 message
+                client_socket.sendall(hl7_message.encode())
+                # Close the connection
+                client_socket.close()
+            except Exception as e:
+                return HttpResponse(f"Error: {e}")
+
+            # Send HL7 message via WebSocket
+            #send_appointment_hl7_message(hl7_message)
+            return HttpResponseRedirect('patient-view-appointment')
+
+    return render(request, 'hospital/patient_book_appointment.html', context=mydict)
+
 
 
 
@@ -801,6 +990,8 @@ def patient_view_appointment_view(request):
     patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
     appointments=models.Appointment.objects.all().filter(patientId=request.user.id)
     return render(request,'hospital/patient_view_appointment.html',{'appointments':appointments,'patient':patient})
+
+
 
 
 
@@ -850,10 +1041,15 @@ def patient_discharge_view(request):
 
 
 #---------------------------------------------------------------------------------
-#------------------------ ABOUT US AND CONTACT US VIEWS START ------------------------------
+#------------------------ ABOUT US AND CONTACT US VIEWS START --------------------
 #---------------------------------------------------------------------------------
+
+
+
 def aboutus_view(request):
     return render(request,'hospital/aboutus.html')
+
+
 
 def contactus_view(request):
     sub = forms.ContactusForm()
@@ -881,12 +1077,12 @@ def contactus_view(request):
 #---------------------------------------------------------------------------------
 
 
-#for directing to the privacy policy page
+# for directing to the privacy policy page
 def privacy_policy_view(request):
     return render(request,'hospital/privacy_policy.html')
 
 
-#for directing to the terms page
+# for directing to the terms page
 def terms_view(request):
     return render(request,'hospital/terms.html')
 
@@ -905,7 +1101,8 @@ def terms_view(request):
 #------------------------ Electronic Records RELATED VIEWS START -----------------
 #---------------------------------------------------------------------------------
 
-#for directing to the admin's medical records options
+
+# for directing to the admin's medical records options
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_medical_records_view(request):
@@ -913,7 +1110,7 @@ def admin_medical_records_view(request):
 
 
 
-#for directing to the admin's medical records related Database
+# for directing to the admin's medical records related Database
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_view_records_view(request):
@@ -924,7 +1121,7 @@ def admin_view_records_view(request):
 
 
 
-#for adding a medical record to the related Database
+# for adding a medical record to the related Database
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_add_records_view(request):
@@ -1101,6 +1298,7 @@ def doctor_delete_medical_record_view(request, pk):
 
 
 
+
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_update_medical_record_view(request,pk):
@@ -1192,61 +1390,244 @@ def assistant_view(request):
 #------------------------ CDSS RELATED VIEWS END ---------------------------------
 #---------------------------------------------------------------------------------
 
+
+
+
+
+
+
+
 #---------------------------------------------------------------------------------
 #------------------------ HL7 Format Message RELATED -----------------------------
 #---------------------------------------------------------------------------------
 
+# Import necessary modules
+import re
 import socket
 import hl7apy
+import threading
 
-def construct_hl7_message(patient_name, doctor_name, appointment_datetime, reason):
-    # Create a new HL7 message
-    hl7_message = hl7apy.Message("SIU_S12")  # SIU_S12 is the HL7 message type for scheduling information unsolicited
 
-    # Populate message fields
-    hl7_message.MSH.msh_3 = "Patient Management System"  # Sending application
-    hl7_message.MSH.msh_5 = "Doctor Scheduling System"   # Receiving application
-    hl7_message.MSH.msh_7 = hl7apy.get_datetime(now=True).strftime("%Y%m%d%H%M%S")  # Message timestamp
 
-    # Create a new scheduling segment
-    siu_segment = hl7_message.add_group("SIU_S12.SIU_S12_PATIENT")
-    siu_segment.pid.pid_5 = patient_name
-    siu_segment.aig.aig_4 = doctor_name
-    siu_segment.rgs.rgs_1 = appointment_datetime.strftime("%Y%m%d%H%M%S")
-    siu_segment.rgs.rgs_2 = reason
 
-    return hl7_message.to_er7()  # Convert HL7 message to ER7 format for transmission
+# Function to extract symptoms from the patient's Message/Details Section
+def extract_symptoms(text):
+    # Define a list of common symptoms or keywords
+    symptoms_list = ['fever', 'cough', 'headache', 'nausea', 'fatigue', 'pain', 'shortness of breath', 'vomiting', 'diarrhea']
+    # Compile a regular expression pattern to match symptoms
+    pattern = re.compile(r'\b(?:' + '|'.join(symptoms_list) + r')\b', re.IGNORECASE)
+    # Find all matches in the text
+    symptoms = re.findall(pattern, text)
+    return symptoms
 
-def send_hl7_message(hl7_message):
-    # Print the HL7 message before sending it
-    print("HL7 Message: Book Appointment")
-    print(hl7_message)
 
-    # Assuming HL7 message is sent over TCP/IP using MLLP (Minimal Lower Layer Protocol)
-    with hl7apy.MLLPServer('127.0.0.1', 8000) as server:
-        server.send_message(hl7_message)
 
-def receive_hl7_messages(host, port):
-    # Create a TCP/IP socket
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-        # Bind the socket to the address and port
-        server_socket.bind((host, port))
+
+
+
+# Function to generate the HL7 Message from a Dictionary of Information
+def generate_hl7_message(appointment_data):
+
+    """
+    Example of an HL7 Message Of An SIU Type:
         
-        # Listen for incoming connections
-        server_socket.listen(1)
-        print(f"Server listening on {host}:{port}...")
+    MSH|^~\&|SendingApplication|SendingFacility|ReceivingApplication|ReceivingFacility|DateTime||SIU^S12|MessageControlID|P|2.3||||||
+    SCH|ScheduleID^ScheduleID|EventReason|||AppointmentID|AppointmentType|AppointmentReason|AppointmentLocation|AppointmentDuration|m|^^ScheduledStartDateTime^ScheduledEndDateTime|||||OrderedBy||||PerformedBy|||||Scheduled
+    PID|1||PatientID||PatientName||PatientDOB|PatientSex|||PatientAddress||PatientPhone|||PatientMaritalStatus||PatientSSN|||||||||||||||||||||
+    PV1|1|O|||||AttendingDoctor|ReferringDoctor||||||||||||||||||||||||||||||||||||||||||VisitNumber|| => (optional)
+    RGS|1|ResourceGroupType
+    AIG|1|ResourceType|ResourceID|ResourceGroup^ResourceGroupName
+    AIL|1|LocationType|Location^^^LocationDescription|LocationStartDateTime|||LocationDuration|m^Minutes||Scheduled
+    AIP|1|PersonnelType|PersonnelID|PersonnelName||PersonnelStartDateTime|||PersonnelDuration|m^Minutes||Scheduled
 
-        while True:
-            # Accept a connection
-            client_socket, client_address = server_socket.accept()
-            print(f"Connection from {client_address}")
 
-            # Receive data from the client
-            with client_socket:
-                data = client_socket.recv(1024)
-                if data:
-                    print("Received HL7 message:")
-                    print(data.decode('utf-8'))
+    """
 
-# Example usage
-receive_hl7_messages('127.0.0.1', 8000)
+    from datetime import timedelta
+
+
+    def generate_control_id():
+        return str(uuid.uuid4())
+
+
+    # Message Header Related Variables
+    SendingApplication = "Patient Management System"  # Sending application
+    ReceivingApplication = "Doctor Scheduling System"   # Receiving application
+    SendingFacility = 'Patient Account'
+    ReceivingFacility = 'MammoCare Solutions'
+    MessageControlID = generate_control_id()        # Generate A Unique Control ID For the HL7 Message
+    print("Message Control ID:", MessageControlID)
+    CurrentDateTime = datetime.now().strftime("%Y%m%d%H%M%S")   # Get the Date & Time, of the message generation
+    print("Message Date & Time:", CurrentDateTime)
+
+
+    # Schedule Activity Information Header Related Variables
+    ScheduleID = '10345'
+    AppointmentID = appointment_data['appointment_id']
+    EventReason = 'Diagnosis'
+    AppointmentType = 'Mammography'
+    AppointmentReason = appointment_data['message']
+    AppointmentLocation = 'EXAMINATION ROOM'
+    AppointmentDuration = '60'
+    appointment_date = appointment_data['date'].replace('-', '')
+    appointment_time = appointment_data['time'].replace(':', '')
+    # Convert appointment_date and appointment_time to datetime objects
+    ScheduledStartDateTime = datetime.strptime(appointment_date + appointment_time, '%Y%m%d%H%M')
+    ScheduledEndDateTime = ScheduledStartDateTime + timedelta(hours=1)      # Add one hour to the start date & time
+    OrderedBy = 'DOCTOR1'
+    PerformedBy = 'DOCTOR2'
+
+
+    # Patient Identification Related Variables
+    PatientID = appointment_data['patient_id']
+    PatientSSN = 'UNKNOWN'
+    PatientDOB = str(appointment_data['patient_date_of_birth']).replace('-','')
+    PatientSex = 'F'
+    PatientAddress = appointment_data['patient_address']
+    PatientPhone = appointment_data['patient_phone']
+    PatientMaritalStatus = 'UNKNOWN'
+    PatientName = appointment_data['patient_first_name'] + '^' + appointment_data['patient_last_name']
+
+
+
+    # Appointment Information - General Resource Related Variables
+    ResourceType = 'Equipment'  # Specify the type of resource (e.g., equipment)
+    ResourceID = 'MAM1234'  # Unique identifier for the resource (e.g., equipment ID)
+    ResourceGroup = 'MammographyEquipment'  # Group identifier for the resource (e.g., equipment category)
+    ResourceGroupName = 'MammographyMachine'  # Name or description of the resource group (e.g., equipment type)
+
+
+
+
+    # Appointment Information - Location Related Variables
+    LocationType = 'C'  # 'C' for clinic or examination room
+    Location = 'Radiologic Department'  # Specify the specific location within the facility
+    LocationDescription = 'Room 203'  # Additional description of the location if needed
+    LocationStartDateTime = ScheduledStartDateTime  # Use the same start datetime as the appointment
+    LocationDuration = '30'  # Duration of the appointment in minutes (30 mins for a mammography scan)
+
+
+
+
+
+    # Appointment Information - Personnel Resource Related Variables
+    PersonnelType = 'D' # 'D' for Doctor (e.g., Doctor, Technician, Nurse, Others)
+    PersonnelID = appointment_data['doctor_id'] 
+    PersonnelName = appointment_data['doctor_first_name'] + '^' + appointment_data['doctor_last_name']
+    PersonnelStartDateTime = ScheduledStartDateTime
+    PersonnelDuration = '60'  # Appointment would last for 60 minutes (1 hr.)
+
+
+
+
+    hl7_message = (
+        f"MSH|^~\&|{SendingApplication}|{SendingFacility}|{ReceivingApplication}|{ReceivingFacility}|{CurrentDateTime}||SIU^S12|{MessageControlID}|P|2.3||||||\n"
+        f"SCH|{ScheduleID}^{ScheduleID}|||{AppointmentID}^{AppointmentID}|10345|{AppointmentType}^{EventReason}|{AppointmentReason}|{AppointmentLocation}|{AppointmentDuration}|m|^^{ScheduledStartDateTime}^{ScheduledEndDateTime}|||||{OrderedBy}^||||{PerformedBy}^|||||Scheduled\n"
+        f"PID|1||{PatientID}||{PatientName}||{PatientDOB}|{PatientSex}|||{PatientAddress}||{PatientPhone}|||{PatientMaritalStatus}||{PatientSSN}|||||||||||||||||||||\n"
+        f"RGS|1|A\n"
+        f"AIG|1|{ResourceType}|{ResourceID}|{ResourceGroup}^{ResourceGroupName}\n"
+        f"AIL|1|{LocationType}|{Location}^^^{LocationDescription}|{LocationStartDateTime}|||{LocationDuration}|m^Minutes||Scheduled\n"
+        f"AIP|1|{PersonnelType}|{PersonnelID}|{PersonnelName}||{PersonnelStartDateTime}|||{PersonnelDuration}|m^Minutes||Scheduled\n"
+    )
+
+    
+    """ hl7_message = (
+                    f"MSH|^~\&|{SendingApplication}|{SendingFacility}|{ReceivingApplication}|{ReceivingFacility}|{appointment_data['date'].replace('-','')}{appointment_data['time'].replace(':','')}||ADT^A01|MessageControlID|P|2.3\n"
+                    f"PID|||{appointment_data['patient_id']}|{appointment_data['patient_first_name']} {appointment_data['patient_last_name']}|||{str(appointment_data['patient_date_of_birth']).replace('-','')}|F\n"
+                    f"PV1||O|{appointment_data['doctor_id']}|{appointment_data['doctor_first_name']} {appointment_data['doctor_last_name']}|||\n"
+    ) 
+    
+    # # Add OBX segments for each symptom
+    # for idx, symptom in enumerate(symptoms, start=1):
+        # hl7_message += f"OBX|{idx}|ST|Symptom|{symptom}||||||F\n"
+    # Add OBX segment for the patient's message to the doctor
+    hl7_message += f"OBX|1|TX|PatientMessage|||{appointment_data['message']}|||F\n"
+    
+    """
+
+    return hl7_message
+
+
+
+
+
+
+
+# Function that establishes a connection between the client & server, to send the hl7 message (from the client's side/Patient)
+def send_hl7_message(hl7_message):
+    # Define Client parameters
+    HOST = '127.0.0.1'
+    PORT = 8000
+    # Create a socket object
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Try to connect to the server
+    try:
+        # Connect to the server
+        client_socket.connect((HOST, PORT))
+        print('Connected to server on port', PORT)
+        # Send the HL7 message
+        client_socket.sendall(hl7_message.encode('utf-8'))
+        print('HL7 message sent successfully')
+        # Receive response from server (if any)
+        response = client_socket.recv(1024)
+        print('Received response from server:', response.decode('utf-8'))
+    finally:
+        # Close the socket
+        client_socket.close()
+
+
+
+
+
+
+
+
+
+# Save the Appointment in the Database
+"""
+patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+message=None
+mydict={'appointmentForm':appointmentForm,'patient':patient,'message':message}
+doctor=models.Doctor.objects.get(user_id=request.POST.get('doctorId'))
+
+appointment.patientId=request.user.id #----user can choose any patient but only their info will be stored
+appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
+appointment.patientName=request.user.first_name #----user can choose any patient but only their info will be stored
+# Parse date string to datetime object
+appointment.appointmentDate = datetime.strptime(request.POST.get('appointmentDate'), '%Y-%m-%d').date()
+# Parse time string to datetime object
+appointment.appointmentTime = datetime.strptime(request.POST.get('appointmentTime'), '%H:%M').time()
+appointment.status=False
+appointment.description = desc
+appointment.save() """
+
+
+
+
+# Start the HL7 message handling thread when Django initializes
+# hl7_thread = threading.Thread(target=hl7_message_handler)
+# hl7_thread.daemon = True  # Thread will terminate when main program exits
+# hl7_thread.start()
+
+
+
+
+
+
+
+
+
+# def construct_hl7_message(patient_name, doctor_name, appointment_datetime, reason):
+    # # Create a new HL7 message
+    # hl7_message = hl7apy.Message("SIU_S12")  # SIU_S12 is the HL7 message type for scheduling information unsolicited
+    # Populate message fields
+    # hl7_message.MSH.msh_3 = "Patient Management System"  # Sending application
+    # hl7_message.MSH.msh_5 = "Doctor Scheduling System"   # Receiving application
+    # hl7_message.MSH.msh_7 = hl7apy.get_datetime(now=True).strftime("%Y%m%d%H%M%S")  # Message timestamp
+    # # Create a new scheduling segment
+    # siu_segment = hl7_message.add_group("SIU_S12.SIU_S12_PATIENT")
+    # siu_segment.pid.pid_5 = patient_name
+    # siu_segment.aig.aig_4 = doctor_name
+    # siu_segment.rgs.rgs_1 = appointment_datetime.strftime("%Y%m%d%H%M%S")
+    # siu_segment.rgs.rgs_2 = reason
+    # return hl7_message.to_er7()  # Convert HL7 message to ER7 format for transmission
