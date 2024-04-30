@@ -719,7 +719,6 @@ def doctor_appointment_view(request):
 
 
 
-
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_view_appointment_view(request):
