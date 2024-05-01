@@ -7,7 +7,7 @@ For more information on this file, see
 https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
 """
 
-import os
+""" import os
 import hospital.routing as r
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
@@ -24,4 +24,4 @@ application = ProtocolTypeRouter({
             r.websocket_urlpatterns
         )
     ),  # WebSocket connections
-})
+}) """

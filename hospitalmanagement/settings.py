@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 
     'hospital',
     'widget_tweaks',
-    'channels',
+    #'channels',
 ]
 
 
@@ -84,8 +84,9 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'hospitalmanagement.wsgi.application'
-ASGI_APPLICATION = 'hospitalmanagement.asgi.application'
+#ASGI_APPLICATION = 'hospitalmanagement.asgi.application'
 
 
 # Database

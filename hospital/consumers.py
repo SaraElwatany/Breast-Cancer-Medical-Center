@@ -1,10 +1,10 @@
 # consumers.py
 
-import json
-from channels.generic.websocket import AsyncWebsocketConsumer
+# import json
+# from channels.generic.websocket import AsyncWebsocketConsumer
 
 
-class DoctorWebSocketConsumer(AsyncWebsocketConsumer):
+""" class DoctorWebSocketConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
         self.send(
@@ -22,5 +22,5 @@ class DoctorWebSocketConsumer(AsyncWebsocketConsumer):
         # Here you can parse the HL7 message, extract appointment details,
         # and save them to the database or perform any necessary actions
         print(text_data)
-        pass
+        pass """
 
