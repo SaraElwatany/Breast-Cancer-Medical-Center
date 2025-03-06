@@ -37,10 +37,14 @@ This project aims to provide an efficient and accurate platform for medical diag
 
 
 ## Repository Contents
-1- Medical-Center-Client: A folder which includes the client side for the project.
-2- Medical-Center-Server: A folder which includes the server side for the project.
-3- Breast_Cancer_Detection.ipynb: Python Notebook for the steps included in the model development stages.
-4- HCIS_Breas Cancer Detection Using Tomosenthesis.docx: A document file which includes details about the dataset used in the project for the classification task.
+
+### 1- Medical-Center-Client: A folder which includes the client side for the project.
+
+### 2- Medical-Center-Server: A folder which includes the server side for the project.
+
+### 3- Breast_Cancer_Detection.ipynb: Python Notebook for the steps included in the model development stages.
+
+### 4- HCIS_Breas Cancer Detection Using Tomosenthesis.docx: A document file which includes details about the dataset used in the project for the classification task.
 
 ### Disclaimer:
 I used this repository as a base for my initial system design, including Django views, HTML templates, databases, and other foundational components: [Hospital Management System by sumitkumar1503](https://github.com/sumitkumar1503/hospitalmanagement)
