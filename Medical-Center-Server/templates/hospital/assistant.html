@@ -1,0 +1,492 @@
+{% extends 'hospital/doctor_base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<style>
+  
+  /* Style for the container */
+  .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 70px; /* Add margin to the top */
+  }
+
+  /* Style for the left-side and right-side */
+  .left-side,
+  .right-side {
+      width: 48%; /* Adjust width as needed */
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9; /* Adjust background color as needed */
+      box-sizing: border-box;
+  }
+
+
+  /* Adjusted style for the image display */
+  .image-display {
+    width: 500px; /* Set fixed width for the image display */
+    height: 400px; /* Set fixed height for the image display */
+    background-color: #f0f0f0; /* Placeholder background color */
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensure the image does not overflow */
+  }
+
+
+  /* Adjusted style for the uploaded image */
+  #uploaded-image {
+    width: 100%; /* Ensure the image fills the container */
+    height: 100%; /* Ensure the image fills the container */
+    object-fit: cover; /* Preserve aspect ratio and cover entire container */
+  }
+
+
+
+
+  /* New style for the submit button */
+  .submit-button {
+      padding: 10px 20px;
+      background-color: #007bff; /* Button color */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%; /* Make button full width */
+      box-sizing: border-box;
+  }
+
+  /* Hover effect for the submit button */
+  .submit-button:hover {
+      background-color: #0056b3; /* Darker button color on hover */
+  }
+
+  /* New CSS for the welcome title */
+  .welcome-title {
+      font-size: 50px;
+      font-weight: bold;
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 20px;
+      margin-top: 5px;
+  }
+
+  /* Updated style for form labels */
+  .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+  }
+
+
+
+    /* Updated style for form inputs and select */
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    /* Style for the view dropdown */
+    #view-dropdown {
+        width: calc(70% - 10px); /* Adjust width to fit alongside the button */
+        margin-bottom: 10px;
+    }
+
+
+
+    /* Style for the upload button */
+    input[type="file"] {
+        display: none;
+    }
+
+    .form-group label {
+        cursor: pointer;
+        color: #007bff; /* Change color as needed */
+        
+    }
+
+    a:link {
+      text-decoration: none;
+    }
+
+    .menu{
+      top: 50px;
+    }
+
+    h6 {
+      color: white;
+    }
+
+    .order-card {
+      color: #fff;
+    }
+
+    .bg-c-blue {
+      background: linear-gradient(45deg, #4099ff, #73b4ff);
+    }
+
+    .bg-c-green {
+      background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+    }
+
+    .card {
+      border-radius: 5px;
+      -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+      box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+      border: none;
+      margin-bottom: 30px;
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .card .card-block {
+      padding: 25px;
+    }
+
+    .order-card i {
+      font-size: 26px;
+    }
+
+    .f-left {
+      float: left;
+    }
+
+    .f-right {
+      float: right;
+    }
+    
+
+    .upload-button {
+      cursor: pointer;
+      color: #007bff; /* Change color as needed */
+      margin-bottom: 5px;
+      display: block;
+    }
+    
+    .upload-button:hover {
+        text-decoration: underline;
+    }
+
+    /* Style for the image to take full width and height */
+    .full-width-height {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* Adjust to your preference: contain, cover, etc. */
+    }
+
+
+    footer {
+      padding: 0px 0px;
+      background: rgb(2, 0, 36);
+      background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(9, 53, 121, 1) 78%);
+      position: fixed;
+      margin: 0px;
+      width: 100%;
+      height: 50px;
+      color: white; /* Add text color */
+      z-index: 0; /* Ensure higher z-index */
+  }
+
+  footer p {
+      margin: 5px 0; /* Adjust margin */
+      font-size: 14px; /* Increase text size */
+  }
+
+
+
+    .footer-container {
+      position: fixed;
+      /*bottom: 0;*/
+      width: 100%;
+      z-index: 1001; /* Ensure higher z-index */
+      /*top: 5;*/
+    }
+
+    .footer-content {
+        padding: 10px 0; /* Add padding to the footer content */
+        bottom: 0px; /* Add margin to the bottom */
+        /*top: 5;*/
+    }
+
+
+    .form-group label.initial-diagnose-label {
+      color: black; /* Change the color to black */
+    }
+
+    /* Style for the label container */
+    .label-container {
+      display: flex;
+      align-items: center; /* Align labels vertically */
+    }
+
+    /* Style for the initial diagnose label */
+    #initial-diagnose-label {
+      margin-left: 150px; /* Adjust spacing between labels */
+      margin-top: -30px;
+    }
+
+    
+
+</style>
+
+
+
+
+
+<body>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+  <h1 class="welcome-title">Your Trusted Medical Advisor</h1>
+
+  <div class="container">
+      <div class="left-side">
+
+
+          <!-- Initial Diagnose field -->
+          <div class="form-group">
+              <label for="initial-diagnose-label">Initial Diagnose:</label>
+              <div class="label-container">
+                <label class= 'initial-diagnose-label' id="initial-diagnose-label"></label>
+              </div>
+          </div>
+
+          <!-- Diagnose dropdown -->
+          <div class="form-group">
+              <label for="your-diagnose">Your Diagnose:</label>
+              <select id="your-diagnose" name="your-diagnose">
+                  <option value="diagnose1">Normal</option>
+                  <option value="diagnose2">Actionable</option>
+                  <option value="diagnose3">Benign</option>
+                  <option value="diagnose4">Cancer</option>
+              </select>
+          </div>
+
+          <!-- Notes field -->
+          <div class="form-group">
+            <label for="notes">Additional Notes:</label>
+            <input type="text" id="notes" name="notes">
+          </div>
+
+            <!-- Patient dropdown menu here -->
+            <div class="form-group">
+              <label for="patient-dropdown">Select Patient:</label>
+              <select id="patient-dropdown" name="patient-dropdown">
+                  {% for patient in patients %}
+                      <option value="{{ patient.id }}">{{ patient }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+
+          <!-- Diagnose button -->
+          <button class="submit-button" id="submit-diagnosis-button">Submit Diagnosis</button> 
+      </div>
+
+      <div class="right-side">
+          <!-- Upload Image Button -->
+          <div class="form-group" style="margin-bottom: 10px;">
+              <button class="upload-button" onclick="document.getElementById('image-upload').click()">Upload Image</button>
+              <input type="file" id="image-upload" name="image-upload" style="display: none;">
+          </div>
+
+          <!-- Image display -->
+          <div class="image-display">
+              <img src="{% static 'images/placeholder-image.jpg' %}" alt="Placeholder Image" id="uploaded-image" class="full-width-height">
+          </div>
+
+          <!-- View dropdown -->
+          <div class="form-group view-dropdown-container">
+              <label for="view-dropdown">View:</label>
+              <select id="view-dropdown" class="dropdown">
+                  <option value="option1">rmlo</option>
+                  <option value="option2">lmlo</option>
+                  <option value="option3">rcc</option>
+                  <option value="option4">lcc</option>
+              </select>
+              <button class="submit-button" id="diagnose-button">Diagnose</button>
+          </div>
+      </div>
+  </div>
+
+
+</body>
+
+
+
+
+
+<script>
+
+  function processImage() {
+
+    console.log('Entered Function');
+
+    // Obtain the CSRF token from the cookie
+    var csrftoken = getCookie('csrftoken');
+
+    // Prepare the AJAX request data
+    var formData = new FormData();
+    var fileInput = document.getElementById('image-upload');
+    formData.append('image', fileInput.files[0]);
+
+    // Send the AJAX request with CSRF token included in the headers
+    $.ajax({
+      url: '/process_image/',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      beforeSend: function(xhr, settings) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken); // Include CSRF token in the headers
+      },
+      success: function(response) {
+        // Update the displayed image with the returned PNG data
+        $('#uploaded-image').attr('src', 'data:image/png;base64,' + response);
+      },
+      error: function(xhr, status, error) {
+        console.error('Error processing image:', error);
+      }
+    });
+  }
+
+
+
+
+// Function to update the initial diagnosis label
+function updateInitialDiagnoseLabel(text) {
+  $('#initial-diagnose-label').text(text);
+}
+
+
+  // Function to handle the click event of the Diagnose button
+$('#diagnose-button').click(function() {
+  // Retrieve the selected view type from the dropdown menu
+  var selectedViewType = $('#view-dropdown').val();
+  
+  // Get the CSRF token from the cookie
+  var csrftoken = getCookie('csrftoken');
+
+  // Send an AJAX request to Django views
+  $.ajax({
+      url: '/diagnose/',
+      type: 'POST',
+      data: {
+          // Include the selected view type in the data sent to the server
+          'view_type': selectedViewType
+      },
+      beforeSend: function(xhr, settings) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken); // Include CSRF token in the headers
+      },
+      success: function(response) {
+        // Parse the JSON response to extract the diagnosis text
+        var diagnosisText = response.diagnosis_text;
+        // Update the initial diagnosis label with the extracted diagnosis text
+        updateInitialDiagnoseLabel(diagnosisText);
+    },
+      error: function(xhr, status, error) {
+          console.error('Error diagnosing:', error);
+      }
+  });
+});
+
+
+
+// Function to handle the click event of the Submit Diagnosis button
+$('#submit-diagnosis-button').click(function() {
+  // Retrieve the selected diagnosis, notes, and patient
+  var selectedDiagnosis = $('#your-diagnose').val();
+  var notes = $('#notes').val();
+  var selectedPatient = $('#patient-dropdown').val();
+  // Retrieve the selected image file
+  var imageFile = document.getElementById('image-upload').files[0];
+
+  // Prepare form data including the image file
+  var formData = new FormData();
+  formData.append('diagnosis', selectedDiagnosis);
+  formData.append('notes', notes);
+  formData.append('patient', selectedPatient);
+  formData.append('image', imageFile);
+
+  // Get the CSRF token from the cookie
+  var csrftoken = getCookie('csrftoken');
+
+  // Send an AJAX request to Django views
+  $.ajax({
+      url: '/submit-record/',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      beforeSend: function(xhr, settings) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken); // Include CSRF token in the headers
+      },
+      success: function(response) {
+          // Handle success response if needed
+          console.log('Diagnosis submitted successfully');
+      },
+      error: function(xhr, status, error) {
+          console.error('Error submitting diagnosis:', error);
+      }
+  });
+});
+
+
+
+
+  // Function to get CSRF token from cookie
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        // Check if the cookie name matches the expected format
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  // Call the processImage function when the file input changes
+  $(document).ready(function() {
+    $('#image-upload').change(function() {
+      processImage();
+    });
+  });
+
+
+
+</script>
+
+
+<br><br><br><br><br><br><br>
+
+
+<div class="footer-container">
+  <footer>
+    <div class="footer-content">
+      <p>
+        &copy; 2024 MammoCare Solutions. All rights reserved. | <a href="/privacy_policy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
+      </p>
+    </div>
+  </footer>
+</div>
+
+{% endblock content %}
+

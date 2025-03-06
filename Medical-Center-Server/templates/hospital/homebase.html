@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/mammocare-solutions-favicon-color.png' %}">
+  <title>MammoCare Solutions</title>
+
+</head>
+
+<body>
+  {% include "hospital/navbar.html" %}
+  {%block content%}
+
+  {%endblock content%}
+  {% include "hospital/footer.html" %}
+</body>
+
+
+</html>

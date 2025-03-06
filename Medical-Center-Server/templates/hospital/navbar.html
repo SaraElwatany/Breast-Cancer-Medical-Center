@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+    .bs-example {
+      margin: 0px;
+    }
+
+    .navbar-brand {
+      font-size: 20px;
+      font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      color: white;
+      transition: color 0.3s;
+      line-height: 80px; /* Adjusted line height to fit the navbar height */
+    }
+
+    .navbar-brand img {
+      width: 320px; /* Increased width for the logo */
+      height: 60px; /* Adjusted height to fit the navbar */
+      margin-right: 10px;
+    }
+
+    .navbar-brand:hover {
+      color: green;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+      color: white;
+      transition: color 0.3s;
+      line-height: 80px; /* Adjusted line height to fit the navbar height */
+    }
+
+    .navbar-nav .nav-item .nav-link:hover {
+      color: white;
+    }
+
+    .navbar-nav .nav-item .nav-link.doctor:hover {
+      background-color: purple; /* Change background color on hover for Doctor item */
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="bs-example">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background:#040046; height: 80px;">
+      <a href="/index" class="navbar-brand">
+        <img src="{% static 'images/mammocare-logo.jpeg' %}" alt="Hospital Logo">
+        
+      </a>
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div class="navbar-nav">
+          <!-- Add any additional nav items here -->
+        </div>
+
+        <div class="navbar-nav">
+          <a href="/adminclick" class="nav-item nav-link">Admin</a>
+          <a href="/doctorclick" class="nav-item nav-link doctor">Doctor</a> 
+          <a href="/patientclick" class="nav-item nav-link">Patient</a>
+          <a href="/contactus" class="nav-item nav-link">Contact Us</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</body>
+
+</html>
+
+
+
+
+
+

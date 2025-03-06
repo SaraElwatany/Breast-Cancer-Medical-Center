@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MammoCare Solutions</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/mammocare-solutions-favicon-color.png' %}">
+
+
+
+
+  <style media="screen">
+    body {
+      padding-left: 240px;
+      margin-top: 50px; /* Adjust the margin from the top */
+    }
+    
+
+    .menu {
+      background: rgb(2,0,36);
+      background: linear-gradient(10deg, rgba(2,0,36,1) 0%, rgba(95,169,255,1) 0%, rgba(11,3,90,1) 55%, rgba(4,5,92,1) 66%, rgba(18,1,88,0.9568160027682948) 87%); 
+      height: 100vh;
+      width: 240px;
+      position: fixed;
+      top: 0px;
+      left: 0; /* Adjusted to show the menu by default */
+      z-index: 5;
+      outline: none;
+      transition: left 0.3s; /* Smooth transition for left position */
+    }
+    
+
+    .menu:hover {
+      left: 0; /* Show the menu on hover */
+    }
+
+    .menu .avatar {
+      background: #040046;
+      padding: 2em 0.5em;
+      text-align: center;
+    }
+
+    .menu .avatar img {
+      width: 100px;
+      height: 100px; /* Adjusted size */
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #5f77f0;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+    }
+
+    .menu .avatar h2 {
+      font-weight: normal;
+      margin-bottom: 0;
+      color: #fff; /* Text color */
+      margin-top: 10px; /* Adjusted spacing */
+    }
+
+    .menu ul {
+      list-style: none;
+      padding: 0.5em 0;
+      margin: 0;
+      background: rgb(2,0,36);
+      background: linear-gradient(10deg, rgba(2,0,36,1) 0%, rgba(95,169,255,1) 0%, rgba(11,3,90,1) 55%, rgba(4,5,92,1) 66%, rgba(18,1,88,0.9568160027682948) 87%); 
+    }
+    
+
+    .menu ul li {
+      padding: 1em;
+      font-size: 1.2em;
+      font-weight: bold; /* Bold text */
+      transition: background-color 0.3s ease; /* Smooth transition for background color */
+    }
+
+    .menu ul li:hover {
+      background-color: rgba(255, 255, 255, 0.1); /* Lighter background on hover */
+    }
+
+    .menu ul li a {
+      color: #fff; /* Text color */
+      text-decoration: none;
+    }
+
+    footer {
+      padding: 0px 0px 0px 0px;
+      background: rgb(2, 0, 36);
+      background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(9, 53, 121, 1) 78%);
+      margin: 0px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+      text-align: center; /* Align text to the center */
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- partial:index.partial.html -->
+  <nav class="menu" tabindex="0">
+    <div class="smartphone-menu-trigger"></div>
+    <header class="avatar">
+      <div style="display: inline-block;">
+        <img src="{% static patient.profile_pic.url %}" alt="Profile Pic" />
+        <br><br>
+        <h6 style="color: white; font-size: 20px;">Patient</h6>
+      </div>
+      <h2>{{ request.user.first_name }}</h2>
+    </header>
+    <ul>
+      <li tabindex="0" class="icon-dashboard"> <a style="color:white; text-decoration:none;" href="/patient-dashboard"><span>Dashboard</span></a> </li>
+      <li tabindex="0" class="icon-dashboard"> <a style="color:white; text-decoration:none;" href="/patient-view-records"><span>My Records</span></a> </li>
+      <li tabindex="0" class="icon-calendar"> <a style="color:white; text-decoration:none;" href="/patient-appointment"><span>Appointments</span></a></li>
+      <li tabindex="0" class="icon-users"> <a style="color:white; text-decoration:none;" href="/patient-discharge"><span>Discharge</span></a></li>
+    </ul>
+  </nav>
+  <main>
+    <!-- nav start -->
+    <div class="bs-example">
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background:#040046;">
+        <!-- Start logout -->
+        <div class="navbar-nav" style=" margin-left: 80%;">
+          <a href="/index" class="nav-item nav-link">Logout</a>
+        </div>
+        <!-- End of logout -->
+        <a href="/admin-dashboard" class="navbar-brand">
+          <img src="{% static 'images/mammocare-logo.jpeg' %}" alt="Logo" height="40" style="margin-top: -7px;">
+        </a>
+      </nav>
+    </div>
+    <!-- nav end -->
+    <br><br>
+    <!-- content start-->
+    {% block content %}
+    {% endblock content %}
+    <!-- content end-->
+    <br><br><br><br><br><br><br>
+    <footer>
+     
+      <br>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div style="color:#ffffff;" class="wow fadeInUp footer-copyright">
+              <p>
+                &copy; 2024 MammoCare Solutions. All rights reserved. | <a href="/privacy_policy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+ 
+
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+**Instructions**
+- Install the Requirements: pip install -r requirements.txt
+- Then, make database migrations: python manage.py makemigrations
+- python manage.py migrate
+
+To Run As A Server Side:
+
+- Run the "server_script" python file first to make sure it is always listening
+- Open New Terminal
+- And finally, run the application: python manage.py runserver 8080
+- Take the URL that appears, and use it in a Private Window like Mozilla FireFox, or Incognito Window like Chrome to avoide any conflicts with the Client Side
+- Sign in using a Doctor Account like the one already saved in the database with the following credentials:
+Option 1 : Username: samy_emad , Password: Sarsora
+Option 2 : Username: salwa_maher , Password: Sarsora
+
