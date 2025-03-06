@@ -3,19 +3,22 @@ This repository contains the implementation of a Breast Cancer Medical Center We
 
 ## Abstract
 
-- Server Side:
+This project replicates a hospital management system with an innovative Clinical Decision Support System (CDSS) to facilitate the decision-making process. Patients can store their medical records in the database, which are also transmitted to the server side for interpretation and diagnosis by doctors. Medical records are transmitted using the HL7 protocol for secure medical data encoding. Doctors can diagnose breast DICOM images, with the CDSS acting as a second reader to assist in the decision-making process.
 
-Manage appointments, doctors, and patients with full database operations (add, update, delete).
-Upload DICOM medical images and get support from a Decision Support System (DSS) that classifies the image as normal, benign, malignant, etc.
+### - Server Side:
 
-- Client Side:
+- Manage appointments, doctors, and patients with full database operations (add, update, delete).
+- Upload DICOM medical images and receive support from the Decision Support System (DSS) that classifies images as normal, benign, malignant, etc.
 
-Book and track appointments easily.
-Access personal medical data and history.
+
+### - Client Side:
+
+- Book and track appointments easily.
+- Access personal medical data and history.
+
 
 
 ## Demo
-
 https://github.com/user-attachments/assets/3fe6b33a-c835-49b1-86b0-87f925af7477
 
 
@@ -38,13 +41,13 @@ This project aims to provide an efficient and accurate platform for medical diag
 
 ## Repository Contents
 
-### 1- Medical-Center-Client: A folder which includes the client side for the project.
+1- Medical-Center-Client: A folder which includes the client side for the project.
 
-### 2- Medical-Center-Server: A folder which includes the server side for the project.
+2- Medical-Center-Server: A folder which includes the server side for the project.
 
-### 3- Breast_Cancer_Detection.ipynb: Python Notebook for the steps included in the model development stages.
+3- Breast_Cancer_Detection.ipynb: Python Notebook for the steps included in the model development stages.
 
-### 4- HCIS_Breas Cancer Detection Using Tomosenthesis.docx: A document file which includes details about the dataset used in the project for the classification task.
+4- HCIS_Breas Cancer Detection Using Tomosenthesis.docx: A document file which includes details about the dataset used in the project for the classification task.
 
 ### Disclaimer:
 I used this repository as a base for my initial system design, including Django views, HTML templates, databases, and other foundational components: [Hospital Management System by sumitkumar1503](https://github.com/sumitkumar1503/hospitalmanagement)
