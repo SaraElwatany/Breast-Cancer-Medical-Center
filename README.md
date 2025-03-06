@@ -1,21 +1,21 @@
 # Mammocare - A Breast Cancer Medical Center Web Application 🩺
 This repository contains the implementation of a Breast Cancer Medical Center Web Application, designed to serve both client (patient) and server (doctors/admin) sides.
 
+
 ## Abstract
 
 This project replicates a hospital management system with an innovative Clinical Decision Support System (CDSS) to facilitate the decision-making process. Patients can store their medical records in the database, which are also transmitted to the server side for interpretation and diagnosis by doctors. Medical records are transmitted using the HL7 protocol for secure medical data encoding. Doctors can diagnose breast DICOM images, with the CDSS acting as a second reader to assist in the decision-making process.
 
-### - Server Side:
+### Server Side:
 
 - Manage appointments, doctors, and patients with full database operations (add, update, delete).
 - Upload DICOM medical images and receive support from the Decision Support System (DSS) that classifies images as normal, benign, malignant, etc.
 
 
-### - Client Side:
+### Client Side:
 
 - Book and track appointments easily.
 - Access personal medical data and history.
-
 
 
 ## Demo
