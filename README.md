@@ -25,7 +25,16 @@ https://github.com/user-attachments/assets/3fe6b33a-c835-49b1-86b0-87f925af7477
 ## Snapshots
 
 ### - Example on HL7 Message
-![HL7 Message](https://github.com/user-attachments/assets/c0c7af21-66bf-4ce1-965a-2e2aefc4fffe)
+![HL7 - Mess](https://github.com/user-attachments/assets/348cfd14-8f35-49c1-b970-6d9c607f3882)
+
+### - Home Page
+![Homepage](https://github.com/user-attachments/assets/b6e21343-c3a4-4a16-a961-517a6e7613e6)
+
+### - Login Page
+![Login](https://github.com/user-attachments/assets/319d662f-ece3-46f8-adf8-b9c3a5b9b81b)
+
+### - Admin Portal
+![Admin Portal](https://github.com/user-attachments/assets/ee4da449-30c8-48e6-bc7d-21c1e75b471a)
 
 ### - Patient Portal
 ![Patient Portal](https://github.com/user-attachments/assets/85db3024-c7c8-42d4-b5b0-eff4171bdfd7)
@@ -33,8 +42,9 @@ https://github.com/user-attachments/assets/3fe6b33a-c835-49b1-86b0-87f925af7477
 ### - Doctor Portal
 ![Doctor Portal](https://github.com/user-attachments/assets/417f1cc0-fe31-46dd-b65e-7db65ac814f6)
 
-### - Admin Portal
-![Admin Portal](https://github.com/user-attachments/assets/ee4da449-30c8-48e6-bc7d-21c1e75b471a)
+### - CDSS 
+![CDSS](https://github.com/user-attachments/assets/64d8427c-1ea1-47f8-baa0-419f278401a0)
+
 
 This project aims to provide an efficient and accurate platform for medical diagnosis and patient management.
 
