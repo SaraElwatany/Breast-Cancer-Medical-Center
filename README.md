@@ -16,7 +16,4 @@ Access personal medical data and history.
 This project aims to provide an efficient and accurate platform for medical diagnosis and patient management.
 
 ### Disclaimer:
-We used this repository as a base for our initial system design, including Django views, HTML templates, databases, and other foundational components:  
-[Hospital Management System by sumitkumar1503](https://github.com/sumitkumar1503/hospitalmanagement)
-
-
+I used this repository as a base for my initial system design, including Django views, HTML templates, databases, and other foundational components: [Hospital Management System by sumitkumar1503](https://github.com/sumitkumar1503/hospitalmanagement)
